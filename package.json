@@ -1,0 +1,27 @@
+{
+  "name": "civilwarbot",
+  "version": "1.0.0",
+  "description": "Bot for a DayZ RP server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/RainMaker1707/passeport_ursc.git"
+  },
+  "keywords": [
+    "DayZ",
+    "Discord",
+    "Bot",
+    "Tickets",
+    "Whitelist",
+    "Radio"
+  ],
+  "author": "RainMaker1707",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RainMaker1707/passeport_ursc/issues"
+  },
+  "homepage": "https://github.com/RainMaker1707/passeport_ursc#readme"
+}

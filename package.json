@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/RainMaker1707/passeport_ursc.git"
+    "url": "git+ssh://git@github.com/RainMaker1707/CivilWarBot.git"
   },
   "keywords": [
     "DayZ",
@@ -21,9 +21,9 @@
   "author": "RainMaker1707",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/RainMaker1707/passeport_ursc/issues"
+    "url": "https://github.com/RainMaker1707/CivilWarBot/issues"
   },
-  "homepage": "https://github.com/RainMaker1707/passeport_ursc#readme",
+  "homepage": "https://github.com/RainMaker1707/CivilWarBot#readme",
   "dependencies": {
     "@discordjs/rest": "^1.7.1",
     "discord.js": "^14.11.0",

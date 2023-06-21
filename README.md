@@ -4,10 +4,10 @@
 Need to create ticket when someone click on the button.\
 Create a channel for the following and get only staff and owner of the ticket see it.
 
-### Whitelist Tickets
-### Background Tickets
-### Help Tickets
-### Death Tickets
+  - [x] Whitelist Tickets 
+  - [x] Background Tickets
+  - [x] Help Tickets
+  - [ ] Death Tickets
 
 
 
@@ -30,5 +30,5 @@ If the callie when to decline the call it goes to the refuse channel and both th
 
 ## Whitelist
 ## Ban
-## Mute
 ## Close
+## background

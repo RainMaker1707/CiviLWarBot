@@ -1,7 +1,7 @@
 const DS = require('discord.js');
 const { ComponentType } = require('discord.js');
 
-let wlcounter = 0
+let wlcounter = 2
 
 module.exports = {
     ticketWL: async (bot)=>{
@@ -11,30 +11,41 @@ module.exports = {
         });
 
         collector.on("collect", async (it)=>{
+            console.log(it.user)
             const everyoneRole = await it.guild.roles.cache.find(r => r.name === '@everyone')
             const whitelist = await it.guild.roles.cache.find(r => r.id === '1113952117435146370')
-            const nonwhite = await it.guild.roles.cache.find(r => r.id === '1113453224133939210')
-            const channelName = "🛃┃𝐖𝐡𝐢𝐭𝐞𝐥𝐢𝐬𝐭 𝐍°" + ++wlcounter
+            const nonwhitelist = await it.guild.roles.cache.find(r => r.id === '1113453048925265970')
+            const modo = await it.guild.roles.cache.find(r => r.id === '1113453048925265970')
+            const support = await it.guild.roles.cache.find(r => r.id === '1113950111253413929')
+            const channelName = "📄🛃┃𝐖𝐡𝐢𝐭𝐞𝐥𝐢𝐬𝐭 𝐍°" + ++wlcounter
             const channel = await it.member.guild.channels.create({
                 name: channelName,
                 type: DS.ChannelType.GuildText,
-                parent: channelColl.parent, 
-                permissionsOverwrites:[
+                parent: channelColl.parent,
+                permissionOverwrites: [
                     {
                         id: everyoneRole,
-                        deny: ["VIEW_CHANNEL"],
+                        deny: [DS.PermissionsBitField.Flags.ViewChannel]
                     },
                     {
                         id: whitelist,
-                        deny: ["VIEW_CHANNEL"],
+                        deny: [DS.PermissionsBitField.Flags.ViewChannel]
                     },
                     {
-                        id: nonwhite,
-                        deny: ["VIEW_CHANNEL"],
+                        id: nonwhitelist,
+                        deny: [DS.PermissionsBitField.Flags.ViewChannel]
                     },
                     {
-                        id: it.user,
-                        allow: ["VIEW_CHANNEL", "SEND_MESSAGES"]
+                        id: it.user.id,
+                        allow: [DS.PermissionsBitField.Flags.ViewChannel, DS.PermissionsBitField.Flags.SendMessages]
+                    },
+                    {
+                        id: modo,
+                        allow: [DS.PermissionsBitField.Flags.ViewChannel, DS.PermissionsBitField.Flags.SendMessages]
+                    },
+                    {
+                        id: support,
+                        allow: [DS.PermissionsBitField.Flags.ViewChannel, DS.PermissionsBitField.Flags.SendMessages]
                     }
                 ]
             })

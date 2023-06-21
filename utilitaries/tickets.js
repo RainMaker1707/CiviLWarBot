@@ -1,4 +1,6 @@
-function createTicketWL(bot, color){
+const color = 0xFC2D00
+
+function createTicketWL(bot){
     const EmbedWL = new EmbedBuilder()
         .setColor(color)
         .setTitle('Demande de Whitelist')
@@ -20,7 +22,7 @@ function createTicketWL(bot, color){
     })
 }
 
-function createTicketDeath(bot, color){
+function createTicketDeath(bot){
     const EmbedRPDeath = new EmbedBuilder()
         .setColor(color)
         .setTitle('Déclarer sa mort')
@@ -42,7 +44,7 @@ function createTicketDeath(bot, color){
     })
 }
 
-function createTicketHelp(bot, color){
+function createTicketHelp(bot){
     const EmbedSupport = new EmbedBuilder()
         .setColor(color)
         .setTitle('Demande de support')
@@ -64,7 +66,7 @@ function createTicketHelp(bot, color){
     })
 }
 
-function createTicketBackground(bot, color){
+function createTicketBackground(bot){
     const EmbedBackground = new EmbedBuilder()
         .setColor(color)
         .setTitle('Création de personnage')
@@ -94,11 +96,10 @@ function createTicketBackground(bot, color){
 }
 
 function createTicket(bot){
-    const color = 0xFC2D00
-    createTicketWL(bot, color)
-    createTicketDeath(bot, color)
-    createTicketBackground(bot, color)
-    createTicketHelp(bot, color)
+    createTicketWL(bot)
+    createTicketDeath(bot)
+    createTicketBackground(bot)
+    createTicketHelp(bot)
 }
 
 module.exports = {

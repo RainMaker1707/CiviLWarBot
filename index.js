@@ -41,9 +41,15 @@ bot.login(CFG.token).then(async ()=> {
     await DB.connect();
     console.log("Connected ....");
 
-    if(CFG.createTicket){
+    if(CFG.createTicketWL && CFG.createTicketDeath && CFG.createTicketHelp && CFG.createTicketBackground){
         createTicket(bot);
+    }else {
+        if(CFG.createTicketWL) createTicketWL(bot)
+        if(CFG.createTicketDeath) createTicketDeaths(bot)
+        if(CFG.createTicketBackground) createTicketBackground(bot)
+        if(CFG.createTicketHelp) createTicketHelp(bot)
     }
+
     ticketWL(bot)
     
 });

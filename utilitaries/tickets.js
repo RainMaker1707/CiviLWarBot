@@ -107,5 +107,5 @@ module.exports = {
     "createTicketWL": createTicketWL,
     "createTicketDeath": createTicketDeath,
     "createTicketBackground": createTicketBackground,
-    "createtTicketHelp": createTicketHelp
+    "createTicketHelp": createTicketHelp
 }

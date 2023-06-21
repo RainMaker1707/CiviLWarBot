@@ -1,12 +1,15 @@
+// external libraries
 const DS = require('discord.js');
 const { Client, GatewayIntentBits} = require('discord.js');
 const CFG = require('./configs/config.json');
-const {REST} = require('@discordjs/rest');
+const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const { MongoClient } = require('mongodb');
 const fs = require('node:fs');
-const { createTicket, createTicketBackground, createTicketDeath, createtTicketHelp, createTicketWL} = require('./utilitaries/tickets')
-const { ticketWL } = require("./utilitaries/ticketWLCollector")
+
+// Utilitaries commands defined internally
+const { createTicket, createTicketBackground, createTicketDeath, createTicketHelp, createTicketWL} = require('./utilitaries/tickets')
+const { ticketGlobal } = require('./utilitaries/ticketGlobal');
 
 let bot = new Client({intents: [
                                 GatewayIntentBits.DirectMessages, 
@@ -50,7 +53,11 @@ bot.login(CFG.token).then(async ()=> {
         if(CFG.createTicketHelp) createTicketHelp(bot)
     }
 
-    ticketWL(bot)
+    ticketGlobal(bot, "📄🛃┃𝐖𝐡𝐢𝐭𝐞𝐥𝐢𝐬𝐭 𝐍°", "1113446931591602206", "")
+    ticketGlobal(bot, "📄📕┃𝐓𝐢𝐜𝐤𝐞𝐭-𝐀°", "1113937575950954557", 
+            " Comment pouvons nous vous aider?\nNous répondrons dés que possible")
+    ticketGlobal(bot, "📄📗┃𝐓𝐢𝐜𝐤𝐞𝐭-𝐁°", "1114274262442844281", 
+            " Raconte nous l'histoire de ton personnage.\nNous traiterons ta demande le plus vite possible!")
     
 });
 

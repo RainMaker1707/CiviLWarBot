@@ -1,11 +1,11 @@
 const DS = require('discord.js');
 const { ComponentType } = require('discord.js');
 
-let wlcounter = 2
+let counter = 0
 
 module.exports = {
-    ticketWL: async (bot)=>{
-        const channelColl = await bot.channels.cache.find(channel => channel.id === "1113446931591602206")
+    ticketGlobal: async (bot, name, id, message) => { 
+        const channelColl = await bot.channels.cache.find(channel => channel.id === id)
         const collector = channelColl.createMessageComponentCollector({
             componentType: ComponentType.Button,
         });
@@ -17,7 +17,7 @@ module.exports = {
             const nonwhitelist = await it.guild.roles.cache.find(r => r.id === '1113453048925265970')
             const modo = await it.guild.roles.cache.find(r => r.id === '1113453048925265970')
             const support = await it.guild.roles.cache.find(r => r.id === '1113950111253413929')
-            const channelName = "📄🛃┃𝐖𝐡𝐢𝐭𝐞𝐥𝐢𝐬𝐭 𝐍°" + ++wlcounter
+            const channelName = name + ++counter
             const channel = await it.member.guild.channels.create({
                 name: channelName,
                 type: DS.ChannelType.GuildText,
@@ -49,7 +49,7 @@ module.exports = {
                     }
                 ]
             })
-            channel.send(`${it.user.toString()}`)
+            channel.send(`${it.user.toString()}` + message)
 
             console.log("Channel '"+ channelName +"' created")
             it.reply("Channel " + channel.toString() +" created").then(msg => {

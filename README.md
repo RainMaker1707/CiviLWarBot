@@ -12,9 +12,16 @@ Create a channel for the following and get only staff and owner of the ticket se
 
 
 # Commands
+- [ ] freq
+- [ ] call
+- [x] close
+- [ ] wl
+- [ ] bg
+- [ ] ban
+
 ## Radio
 Create radio channel on demand
-example I wan to connect myself to an existing radio 112.5 I made the command /connect 112.5\
+example I want to connect myself to a radio frequence 112.5 I type the command /freq 112.5
   - If the channel exist the bot only move myself to the appropriate channel
   - If the channel does not exist, bot creates it and thenn move me to
 
@@ -31,4 +38,9 @@ If the callie when to decline the call it goes to the refuse channel and both th
 ## Whitelist
 ## Ban
 ## Close
+Usage: `/close`
+Close the ticket where you type it.
+If you are not a privilegied user, acrtion will be refused
+If the channel is not a ticket it is refused
+
 ## background

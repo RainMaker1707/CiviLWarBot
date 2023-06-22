@@ -11,6 +11,7 @@ const fs = require('node:fs');
 const { createTicket, createTicketBackground, createTicketDeath, createTicketHelp, createTicketWL} = require('./utilitaries/tickets')
 const { ticketGlobal } = require('./utilitaries/ticketGlobal');
 const { ticketDeath } = require('./utilitaries/ticketDeath');
+const { closeCmd } = require("./utilitaries/close");
 
 let bot = new Client({intents: [
                                 GatewayIntentBits.DirectMessages, 
@@ -77,7 +78,15 @@ bot.login(CFG.token).then(async ()=> {
     }
 })();
 
-
-bot.on("message", (message) => {
-    console.log(message)
+bot.on('interactionCreate', async (it)=>{
+    if(!it.isCommand()) return;
+    const command = it.commandName
+    switch(command){
+        case "freq": console.log(command); break;
+        case "ban": console.log(command); break;
+        case "call": console.log(command); break;
+        case "wl": console.log(command); break;
+        case "close": closeCmd(bot, it); break;
+        case "bg": console.log(command); break;
+    }
 })

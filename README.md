@@ -7,7 +7,7 @@ Create a channel for the following and get only staff and owner of the ticket se
   - [x] Whitelist Tickets 
   - [x] Background Tickets
   - [x] Help Tickets
-  - [ ] Death Tickets
+  - [x] Death Tickets
 
 
 

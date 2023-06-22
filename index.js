@@ -12,6 +12,7 @@ const { createTicket, createTicketBackground, createTicketDeath, createTicketHel
 const { ticketGlobal } = require('./utilitaries/ticketGlobal');
 const { ticketDeath } = require('./utilitaries/ticketDeath');
 const { closeCmd } = require("./utilitaries/close");
+const { whitelistCmd } = require('./utilitaries/whitelist');
 
 let bot = new Client({intents: [
                                 GatewayIntentBits.DirectMessages, 
@@ -22,7 +23,7 @@ let bot = new Client({intents: [
                                 GatewayIntentBits.DirectMessageReactions,
                             ]})
 
-let DB = new MongoClient('mongodb://localhost')
+let DB = new MongoClient('mongodb://127.0.0.1:27017')
 
 let counter = 0
 
@@ -82,11 +83,11 @@ bot.on('interactionCreate', async (it)=>{
     if(!it.isCommand()) return;
     const command = it.commandName
     switch(command){
-        case "freq": console.log(command); break;
-        case "ban": console.log(command); break;
-        case "call": console.log(command); break;
-        case "wl": console.log(command); break;
+        case "wl": whitelistCmd(it, DB); break;
         case "close": closeCmd(bot, it); break;
         case "bg": console.log(command); break;
+        case "freq": console.log(command); break;
+        case "call": console.log(command); break;
+        case "ban": console.log(command); break;
     }
 })

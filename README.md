@@ -25,7 +25,7 @@ example I want to connect myself to a radio frequence 112.5 I type the command /
   - If the channel exist the bot only move myself to the appropriate channel
   - If the channel does not exist, bot creates it and thenn move me to
 
-TODO when the channel is empty delete it.
+when the channel is empty delete it.
 
 ## Call
 Create a hidden channel with two other chan:

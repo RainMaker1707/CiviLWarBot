@@ -10,6 +10,7 @@ const fs = require('node:fs');
 // Utilitaries commands defined internally
 const { createTicket, createTicketBackground, createTicketDeath, createTicketHelp, createTicketWL} = require('./utilitaries/tickets')
 const { ticketGlobal } = require('./utilitaries/ticketGlobal');
+const { ticketDeath } = require('./utilitaries/ticketDeath');
 
 let bot = new Client({intents: [
                                 GatewayIntentBits.DirectMessages, 
@@ -48,7 +49,7 @@ bot.login(CFG.token).then(async ()=> {
         createTicket(bot);
     }else {
         if(CFG.createTicketWL) createTicketWL(bot)
-        if(CFG.createTicketDeath) createTicketDeaths(bot)
+        if(CFG.createTicketDeath) createTicketDeath(bot)
         if(CFG.createTicketBackground) createTicketBackground(bot)
         if(CFG.createTicketHelp) createTicketHelp(bot)
     }
@@ -58,6 +59,7 @@ bot.login(CFG.token).then(async ()=> {
             " Comment pouvons nous vous aider?\nNous répondrons dés que possible")
     ticketGlobal(bot, "📄📗┃𝐓𝐢𝐜𝐤𝐞𝐭-𝐁°", "1114274262442844281", 
             " Raconte nous l'histoire de ton personnage.\nNous traiterons ta demande le plus vite possible!")
+    ticketDeath(bot, "1114274956566605874")
     
 });
 

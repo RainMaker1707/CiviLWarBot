@@ -28,6 +28,7 @@ module.exports = {
                         })
                         .then(()=>{
                             console.log("Whitelisted SteamID: " + steam_id, " DiscordID: " + discord_id + " by: " + it.user.username)
+                            //TODO: add role for whitelisted player
                             it.reply("La whitelist a bien été enregistrée")
                         })
                     }

@@ -13,6 +13,7 @@ const { ticketGlobal } = require('./utilitaries/ticketGlobal');
 const { ticketDeath } = require('./utilitaries/ticketDeath');
 const { closeCmd } = require("./utilitaries/close");
 const { whitelistCmd } = require('./utilitaries/whitelist');
+const { radioCmd } = require('./utilitaries/radio');
 
 let bot = new Client({intents: [
                                 GatewayIntentBits.DirectMessages, 
@@ -21,6 +22,7 @@ let bot = new Client({intents: [
                                 GatewayIntentBits.MessageContent,
                                 GatewayIntentBits.GuildMembers,
                                 GatewayIntentBits.DirectMessageReactions,
+                                GatewayIntentBits.GuildVoiceStates
                             ]})
 
 let DB = new MongoClient('mongodb://127.0.0.1:27017')
@@ -86,8 +88,13 @@ bot.on('interactionCreate', async (it)=>{
         case "wl": whitelistCmd(it, DB); break;
         case "close": closeCmd(bot, it); break;
         case "bg": console.log(command); break;
-        case "freq": console.log(command); break;
+        case "freq": radioCmd(bot,it); break;
         case "call": console.log(command); break;
         case "ban": console.log(command); break;
     }
+})
+
+//TODO: delete the radio channel when empty
+bot.on("voiceStateUpdate", async (oldM, newM) => {
+    console.log(oldM, newM)
 })

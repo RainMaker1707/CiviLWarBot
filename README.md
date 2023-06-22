@@ -15,7 +15,7 @@ Create a channel for the following and get only staff and owner of the ticket se
 - [ ] freq
 - [ ] call
 - [x] close
-- [ ] wl
+- [x] wl
 - [ ] bg
 - [ ] ban
 
@@ -36,6 +36,9 @@ When the callie want to answer to the call it goes to the freshly created hidden
 If the callie when to decline the call it goes to the refuse channel and both three channels will be destroyed.
 
 ## Whitelist
+Usage: `/wl <steam-id> <discord-id>`
+Add to DB a record linking both ID to a unnique identifier
+
 ## Ban
 ## Close
 Usage: `/close`

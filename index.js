@@ -95,6 +95,19 @@ bot.on('interactionCreate', async (it)=>{
 })
 
 //TODO: delete the radio channel when empty
-bot.on("voiceStateUpdate", async (oldM, newM) => {
-    console.log(oldM, newM)
+bot.on("voiceStateUpdate", async (oldMember, newMember) => {
+    if (oldMember.channel) {
+        const  category_id = "1113447004425687191"
+        const floats = (ch) => parseFloat(ch.name.split('┃')[1])
+        let filter = (ch) =>{
+            return (ch.parentId == category_id)
+            && (floats(ch) >= 80.0 && floats(ch) <= 180.0)
+            && (oldMember.channel == ch.id)
+            && (oldMember.channel.members.size == 0)
+        }
+        return oldMember.guild.channels.cache
+            .filter(filter)
+            .forEach((ch) => ch.delete()
+            .catch(console.error));
+    }
 })

@@ -21,10 +21,11 @@ module.exports = {
                 })
             }
         })
-        if(!flag && !canDelete) it.reply("Vous n'avez pas les droit suffisant pour faire cela")
-        else {
+        if(!flag) it.reply("Vous n'avez pas les droit suffisant pour faire cela")
+        else if(flag && canDelete){
             console.log("Deleted channel:  " + channelToDelete.name + " by user: " + it.user.username)
             channelToDelete.delete()
         }
+        else it.reply("Vous n'avez pas les droit suffisant pour faire cela")
     }
 }

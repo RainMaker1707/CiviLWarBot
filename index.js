@@ -85,7 +85,7 @@ bot.on('interactionCreate', async (it)=>{
     if(!it.isCommand()) return;
     const command = it.commandName
     switch(command){
-        case "wl": whitelistCmd(it, DB); break;
+        case "wl": whitelistCmd(bot, it, DB); break;
         case "close": closeCmd(bot, it); break;
         case "bg": console.log(command); break;
         case "freq": radioCmd(bot,it); break;

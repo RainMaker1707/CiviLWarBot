@@ -1,10 +1,10 @@
 const DS = require('discord.js')
-const { authorized } = require('./privilegied')
+const { authorized, whitelisted } = require('./privilegied')
 const CFG = require('../configs/config.json')
 
 module.exports = {
-    whitelistCmd: async (it, DB) => {
-        let flag = false, existing = false, error = false
+    whitelistCmd: async (bot, it, DB) => {
+        let flag = false
         authorized.forEach((r)=>{
             if(it.member._roles.includes(r)){
                 flag = true
@@ -26,9 +26,11 @@ module.exports = {
                         .catch((err) => {
                             if(err) it.reply("Une erreur est survenur pendant l'insertion dans la whitelist")
                         })
-                        .then(()=>{
+                        .then(async ()=>{
                             console.log("Whitelisted SteamID: " + steam_id, " DiscordID: " + discord_id + " by: " + it.user.username)
                             //TODO: add role for whitelisted player
+                            const toWhite = it.guild.members.fetch(discord_id)
+                            toWhite.then((member)=> member.roles.add(whitelisted))
                             it.reply("La whitelist a bien été enregistrée")
                         })
                     }

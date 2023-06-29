@@ -22,7 +22,8 @@ let bot = new Client({intents: [
                                 GatewayIntentBits.MessageContent,
                                 GatewayIntentBits.GuildMembers,
                                 GatewayIntentBits.DirectMessageReactions,
-                                GatewayIntentBits.GuildVoiceStates
+                                GatewayIntentBits.GuildVoiceStates,
+                                GatewayIntentBits.GuildPresences
                             ]})
 
 let DB = new MongoClient('mongodb://127.0.0.1:27017')

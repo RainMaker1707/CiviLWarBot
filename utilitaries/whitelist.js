@@ -1,5 +1,5 @@
 const DS = require('discord.js')
-const { authorized, whitelisted } = require('./privilegied')
+const { authorized, whitelisted, nonwhitelisted } = require('./privilegied')
 const CFG = require('../configs/config.json')
 
 module.exports = {
@@ -30,7 +30,10 @@ module.exports = {
                             console.log("Whitelisted SteamID: " + steam_id, " DiscordID: " + discord_id + " by: " + it.user.username)
                             //TODO: add role for whitelisted player
                             const toWhite = it.guild.members.fetch(discord_id)
-                            toWhite.then((member)=> member.roles.add(whitelisted))
+                            toWhite.then((member)=> {
+                                member.roles.add(whitelisted)
+                                member.roles.remove(nonwhitelisted)
+                            })
                             it.reply("La whitelist a bien été enregistrée")
                         })
                     }

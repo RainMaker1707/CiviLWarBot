@@ -59,7 +59,7 @@ bot.login(CFG.token).then(async ()=> {
         if(CFG.createTicketHelp) createTicketHelp(bot)
     }
 
-    ticketGlobal(bot, "📄🛃┃𝐖𝐡𝐢𝐭𝐞𝐥𝐢𝐬𝐭 𝐍°", "1113446931591602206", "")
+    ticketGlobal(bot, "📄🛃┃𝐖𝐡𝐢𝐭𝐞𝐥𝐢𝐬𝐭 𝐍°", "1113446931591602206", " Lisez bien le reglement, ensuite le lore et les factions pour vous imprégnez du monde de CivilWar.\nN'oubliez pas de nous donnez votre steam ID")
     ticketGlobal(bot, "📄📕┃𝐓𝐢𝐜𝐤𝐞𝐭-𝐀°", "1113937575950954557", 
             " Comment pouvons nous vous aider?\nNous répondrons dés que possible")
     ticketGlobal(bot, "📄📗┃𝐓𝐢𝐜𝐤𝐞𝐭-𝐁°", "1114274262442844281", 

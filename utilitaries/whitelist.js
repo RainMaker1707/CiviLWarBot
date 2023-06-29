@@ -31,8 +31,8 @@ module.exports = {
                             //TODO: add role for whitelisted player
                             const toWhite = it.guild.members.fetch(discord_id)
                             toWhite.then((member)=> {
-                                member.roles.add(whitelisted)
-                                member.roles.remove(nonwhitelisted)
+                                member.roles.remove(nonwhitelisted);
+                                member.roles.add(whitelisted);
                             })
                             it.reply("La whitelist a bien été enregistrée")
                         })

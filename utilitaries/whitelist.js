@@ -28,12 +28,13 @@ module.exports = {
                         })
                         .then(async ()=>{
                             console.log("Whitelisted SteamID: " + steam_id, " DiscordID: " + discord_id + " by: " + it.user.username)
-                            //TODO: add role for whitelisted player
+                            
                             const toWhite = it.guild.members.fetch(discord_id)
-                            toWhite.then((member)=> {
-                                member.roles.remove(nonwhitelisted);
-                                member.roles.add(whitelisted);
+                            toWhite.then(async (member)=> {
+                                await member.roles.remove(nonwhitelisted);
+                                await member.roles.add(whitelisted);
                             })
+                            
                             it.reply("La whitelist a bien été enregistrée")
                         })
                     }

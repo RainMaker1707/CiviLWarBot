@@ -1,6 +1,7 @@
 const DS = require('discord.js')
 const { authorized, whitelisted, nonwhitelisted } = require('./privilegied')
 const CFG = require('../configs/config.json')
+const fs = require('fs')
 
 module.exports = {
     whitelistCmd: async (bot, it, DB) => {
@@ -35,6 +36,8 @@ module.exports = {
                                 await member.roles.add(whitelisted);
                             })
                             
+                            fs.writeFile('../CivilWar95/Profiles/ServerProfile/whitelist.txt', steam_id+'\n', {flag: 'a+'}, err=>{if(err)console.log(err)})
+
                             it.reply("La whitelist a bien été enregistrée")
                         })
                     }

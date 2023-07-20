@@ -1,6 +1,6 @@
 // external libraries
 const DS = require('discord.js');
-const { Client, GatewayIntentBits} = require('discord.js');
+const { Client, GatewayIntentBits, Partials, Events} = require('discord.js');
 const CFG = require('./configs/config.json');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
@@ -14,6 +14,7 @@ const { ticketDeath } = require('./utilitaries/ticketDeath');
 const { closeCmd } = require("./utilitaries/close");
 const { whitelistCmd } = require('./utilitaries/whitelist');
 const { radioCmd } = require('./utilitaries/radio');
+const { whitelisted, nonwhitelisted } = require('./utilitaries/privilegied')
 
 let bot = new Client({intents: [
                                 GatewayIntentBits.DirectMessages, 
@@ -21,10 +22,13 @@ let bot = new Client({intents: [
 		                        GatewayIntentBits.GuildMessages,
                                 GatewayIntentBits.MessageContent,
                                 GatewayIntentBits.GuildMembers,
+                                GatewayIntentBits.GuildMessageReactions,
                                 GatewayIntentBits.DirectMessageReactions,
                                 GatewayIntentBits.GuildVoiceStates,
-                                GatewayIntentBits.GuildPresences
-                            ]})
+                                GatewayIntentBits.GuildPresences,
+                            ],
+                      partials: [Partials.Message, Partials.Channel, Partials.Reaction]
+                    })
 
 let DB = new MongoClient('mongodb://127.0.0.1:27017')
 
@@ -42,7 +46,7 @@ for (const file of commandFiles) {
 const rest = new REST({version: '9'}).setToken(CFG.token);
 
 bot.on("ready",  ()=>{
-    console.log("Ready.....")
+    console.log("Ready..... V1.01")
 });
 
 bot.login(CFG.token).then(async ()=> {
@@ -110,5 +114,16 @@ bot.on("voiceStateUpdate", async (oldMember, newMember) => {
             .filter(filter)
             .forEach((ch) => ch.delete()
             .catch(console.error));
+    }
+})
+
+bot.on(Events.MessageReactionAdd, async (reaction, user) => {
+    if (reaction.message.id === CFG.LastRuleMsg && (reaction.emoji.name == "✅" || reaction.emoji.name == "☑️")) { //check if it is rules and it check it
+        const toWhite = bot.guilds.cache.get(reaction.message.guildId).members.fetch(user.id)
+        toWhite.then(async (member)=> {
+            if(!member._roles.includes(whitelisted)){
+                await member.roles.add(nonwhitelisted);
+            }
+        })
     }
 })

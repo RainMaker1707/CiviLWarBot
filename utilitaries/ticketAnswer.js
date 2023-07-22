@@ -1,6 +1,6 @@
 const DS = require('discord.js');
 
-let counter = 32
+let counter = 41
 
 module.exports = {
     answer: async (it, name, message, bot, id) => {

@@ -3,9 +3,12 @@ const {EmbedBuilder} = require("discord.js")
 const color = 0xFC2D00
 
 function createTicketWL(bot){
-    const msg  = "Bienvenue sur **CivilWar95**.\nAvant toutes choses veuillez prendre le temps de lire le https://discord.com/channels/1113445147707981834/1113445219598340118 "
-                +" et le https://discord.com/channels/1113445147707981834/1113447196147322930 du serveur.\nPuis créez un ticket via le bouton **[Demande de Whitelist]**\n"
-                +"Dès lors le ticket créer un membre du staff prendra contact avec vous pour passer à l'étape de l'entretien."
+    const msg  = "Bienvenue sur **CivilWar95**.\nAvant toutes choses veuillez prendre le temps de"
+                +" lire le https://discord.com/channels/1113445147707981834/1113445219598340118 "
+                +" et le https://discord.com/channels/1113445147707981834/1113447196147322930 du "
+                +"serveur.\nPuis créez un ticket via le bouton **[Demande de Whitelist]**\n"
+                +"Dès lors le ticket créer un membre du staff prendra contact avec vous pour passer "
+                +"à l'étape de l'entretien."
     const EmbedWL = new EmbedBuilder()
         .setColor(color)
         .setTitle("🛃 Whitelist 🛃")

@@ -15,6 +15,7 @@ const { closeCmd } = require("./utilitaries/close");
 const { whitelistCmd } = require('./utilitaries/whitelist');
 const { radioCmd } = require('./utilitaries/radio');
 const { whitelisted, nonwhitelisted } = require('./utilitaries/privilegied')
+const { customPass } = require("./utilitaries/passeport")
 
 let bot = new Client({intents: [
                                 GatewayIntentBits.DirectMessages, 
@@ -32,8 +33,6 @@ let bot = new Client({intents: [
 
 let DB = new MongoClient('mongodb://127.0.0.1:27017')
 
-let counter = 0
-
 const commands = [];
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
@@ -45,9 +44,11 @@ for (const file of commandFiles) {
 
 const rest = new REST({version: '9'}).setToken(CFG.token);
 
+
 bot.on("ready",  ()=>{
     console.log("Ready..... V1.01")
 });
+
 
 bot.login(CFG.token).then(async ()=> {
 
@@ -86,6 +87,7 @@ bot.login(CFG.token).then(async ()=> {
     }
 })();
 
+
 bot.on('interactionCreate', async (it)=>{
     if(!it.isCommand()) return;
     const command = it.commandName
@@ -96,10 +98,11 @@ bot.on('interactionCreate', async (it)=>{
         case "freq": radioCmd(bot,it); break;
         case "call": console.log(command); break;
         case "ban": console.log(command); break;
+        case "pass": customPass(bot, it, DB); break;
     }
 })
 
-//TODO: delete the radio channel when empty
+
 bot.on("voiceStateUpdate", async (oldMember, newMember) => {
     if (oldMember.channel) {
         const  category_id = "1113447004425687191"
@@ -116,6 +119,7 @@ bot.on("voiceStateUpdate", async (oldMember, newMember) => {
             .catch(console.error));
     }
 })
+
 
 bot.on(Events.MessageReactionAdd, async (reaction, user) => {
     if (reaction.message.id === CFG.LastRuleMsg && (reaction.emoji.name == "✅" || reaction.emoji.name == "☑️")) { //check if it is rules and it check it

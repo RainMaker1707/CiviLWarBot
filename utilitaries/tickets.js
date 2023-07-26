@@ -1,32 +1,37 @@
-const {EmbedBuilder} = require("discord.js")
+const {EmbedBuilder, channelMention} = require("discord.js")
 
 const color = 0xFC2D00
 
-function createTicketWL(bot){
-    const msg  = "Bienvenue sur **CivilWar95**.\nAvant toutes choses veuillez prendre le temps de"
-                +" lire le https://discord.com/channels/1113445147707981834/1113445219598340118 "
-                +" et le https://discord.com/channels/1113445147707981834/1113447196147322930 du "
-                +"serveur.\nPuis créez un ticket via le bouton **[Demande de Whitelist]**\n"
-                +"Dès lors le ticket créer un membre du staff prendra contact avec vous pour passer "
-                +"à l'étape de l'entretien."
+async function createTicketWL(bot){
+    const msg  = "Bienvenue sur **CivilWar95**.\nAvant toute chose veuillez prendre le temps de"
+                +" lire le "+channelMention("1113445219598340118 ")
+                +" et le "+ channelMention("1113447196147322930") +" du "
+                +"serveur."
+                +"\n - Votre pseudo sur Discord ET en jeu doit correspondre au prénom et au nom de votre personnage"
+                +"\n- Puis créez un ticket via le bouton **[Demande de Whitelist]**"
+                +"\n- Renseignez dans ce ticket votre SteamID"
+                +"\n\nUne fois le ticket créé, un membre du staff prendra contact avec vous pour passer à l'étape de l'entretien. "
+                +"Si vous êtes disponible immédiatement, patientez dans le canal"+ channelMention("1131629828081201324")+"ou "+ channelMention("1131629464023998664") +". "
+                +"Dès que le ticket sera créé, un membre du staff prendra contact avec vous pour entamer votre whitelist."
     const EmbedWL = new EmbedBuilder()
         .setColor(color)
         .setTitle("🛃 Whitelist 🛃")
         .setDescription(msg)
-
-    bot.channels.cache.find(channel => channel.id ===  "1113446931591602206").send({ 
-        embeds: [EmbedWL],
-        components: [
-            {
-                type: 1,
-                components : [{
-                    type: 2,
-                    style: 4,
-                    label: "Demande de Whitelist",
-                    custom_id: "wl_ticket"
-                }]
-            }
-        ]
+    bot.channels.fetch("1113446931591602206").then((chan)=>{
+        chan.send({ 
+            embeds: [EmbedWL],
+            components: [
+                {
+                    type: 1,
+                    components : [{
+                        type: 2,
+                        style: 4,
+                        label: "Demande de Whitelist",
+                        custom_id: "wl_ticket"
+                    }]
+                }
+            ]
+        })
     })
 }
 
@@ -76,7 +81,7 @@ function createTicketHelp(bot){
     +"\n- Un bug en jeu nécessitant un remboursement ou un TP"
     +"\n- Une question que vous souhaitez garder confidentielle"
     +"\n- Une demande particulière"
-    +"\n\nSi vous rencontrez un **problème technique avec votre jeu**, veuillez-vous rediriger vers le canal https://discord.com/channels/1113445147707981834/1113937283675074670\n"
+    +"\n\nSi vous rencontrez un **problème technique avec votre jeu**, veuillez-vous rediriger vers le canal "+ channelMention("1113937283675074670") +"\n"
     +"Dans la situation où vous rencontrez un soucis en jeu un **justificatif attestant d'un dysfonctionnement** est requis (Screenshot, vidéo...)"
     +"\n\nNotez que le temps de traitement de votre demande peut varier en fonction de la disponibilité des membres du staff. Par ailleurs,"
     +" il est inutile d'essayer de les contacter par MP"
@@ -86,7 +91,7 @@ function createTicketHelp(bot){
         .setTitle("📕  Demande d'aide 📕")
         .setDescription(msg)
 
-    bot.channels.cache.find(channel => channel.id === "1113937575950954557" ).send({ 
+    bot.channels.fetch("1113937575950954557" ).then((chan)=> chan.send({ 
         embeds: [EmbedSupport],
         components: [
             {
@@ -99,13 +104,13 @@ function createTicketHelp(bot){
                 }]
             }
         ]
-    })
+    }))
 }
 
 function createTicketBackground(bot){
     const msg = "Si vous le souhaitez, il vous est possible de soumettre le background de votre personnage via cette section."
     +"\n\n ⚠️  **Attention** "
-    +"Avant toutes chose veuillez prendre connaissance du https://discord.com/channels/1113445147707981834/1113447196147322930 du serveur afin de créer un personnage cohérent avec l'époque et le contexte dans lequel il se trouve."
+    +"Avant toutes chose veuillez prendre connaissance du " + channelMention("1113447196147322930") +" du serveur afin de créer un personnage cohérent avec l'époque et le contexte dans lequel il se trouve."
     +"\n\nDans le cas où vous comptez jouer un civil, le background est facultatif. Il devient obligatoire si vous souhaitez rejoindre une faction."
 
     const EmbedBackground = new EmbedBuilder()

@@ -15,7 +15,9 @@ const { closeCmd } = require("./utilitaries/close");
 const { whitelistCmd } = require('./utilitaries/whitelist');
 const { radioCmd } = require('./utilitaries/radio');
 const { whitelisted, nonwhitelisted } = require('./utilitaries/privilegied')
-const { customPass } = require("./utilitaries/passeport")
+const { customPass } = require("./utilitaries/passeportDiscord")
+const { customPass2 } = require("./utilitaries/passeportSteam")
+const { get_DS_id, get_steam_id } = require("./utilitaries/getDSid")
 
 let bot = new Client({intents: [
                                 GatewayIntentBits.DirectMessages, 
@@ -64,11 +66,11 @@ bot.login(CFG.token).then(async ()=> {
         if(CFG.createTicketHelp) createTicketHelp(bot)
     }
 
-    ticketGlobal(bot, "📄🛃┃𝐖𝐡𝐢𝐭𝐞𝐥𝐢𝐬𝐭 𝐍°", "1113446931591602206", " Lisez bien le reglement, ensuite le lore et les factions pour vous imprégnez du monde de CivilWar.\nN'oubliez pas de nous donnez votre steam ID")
+    ticketGlobal(bot, "📄🛃┃𝐖𝐡𝐢𝐭𝐞𝐥𝐢𝐬𝐭 𝐍°", "1113446931591602206", "Lisez bien le "+DS.channelMention("1113445219598340118")+", ensuite le "+ DS.channelMention("1113447196147322930") +" et les "+ DS.channelMention("1114495713766809672") +" pour vous imprégner du monde de CivilWar 95.\nN'oubliez pas de nous donner votre SteamID et de vous renommer sur discord avec le prénom et le nom de votre personnage.\n\nMerci de patienter, un staff va prendre contact avec vous d'ici peu.")
     ticketGlobal(bot, "📄📕┃𝐓𝐢𝐜𝐤𝐞𝐭-𝐀°", "1113937575950954557", 
-            " Comment pouvons nous vous aider?\nNous répondrons dés que possible")
+            "Comment pouvons nous vous aider?\nNous répondrons dés que possible")
     ticketGlobal(bot, "📄📗┃𝐓𝐢𝐜𝐤𝐞𝐭-𝐁°", "1114274262442844281", 
-            " Raconte nous l'histoire de ton personnage.\nNous traiterons ta demande le plus vite possible!")
+            "Raconte nous l'histoire de ton personnage.\nNous traiterons ta demande le plus vite possible!")
     ticketDeath(bot, "1114274956566605874")
     
 });
@@ -98,7 +100,10 @@ bot.on('interactionCreate', async (it)=>{
         case "freq": radioCmd(bot,it); break;
         case "call": console.log(command); break;
         case "ban": console.log(command); break;
-        case "pass": customPass(bot, it, DB); break;
+        case "pass_ds": customPass(bot, it, DB); break;
+        case "pass_steam": customPass2(bot, it, DB); break;
+        case "ds_id": get_DS_id(bot, it ,DB); break;
+        case "steam_id": get_steam_id(bot, it, DB); break;
     }
 })
 

@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 
 module.exports = {
-  name: 'pass',
+  name: 'pass_ds',
   value: "N/A",
   description: "Customise les données d'un passeport ingame",
   options: [

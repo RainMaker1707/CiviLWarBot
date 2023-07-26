@@ -1,6 +1,6 @@
 const DS = require('discord.js');
 
-let counter = 41
+let counter = 50
 
 module.exports = {
     answer: async (it, name, message, bot, id) => {
@@ -42,7 +42,7 @@ module.exports = {
                 }
             ]
         })
-        channel.send(`${it.user.toString()}` + message)
+        channel.send("Bonjour "+`${it.user.toString()},\n\n` + message)
 
         console.log("Channel '"+ channelName +"' created")
         it.reply("Channel " + channel.toString() +" created").then(msg => {

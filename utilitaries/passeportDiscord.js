@@ -24,17 +24,20 @@ module.exports = {
                 if(parseInt(month) > 12) it.reply("Le mois renseigné excède 12")
                 else if(parseInt(month) <= 0) it.reply("Le mois renseigné ne peut aps être plus petit ou egal a 0")
                 else DB.db(CFG.DBName).collection(CFG.WLtable).findOne({"discordID": discord_id}).then((doc)=>{
-                    const steam_id = doc.steamID
-                    const pathFile = "../CivilWar95/Profiles/ServerProfile/CJ_Pass/DataBase/"+steam_id+".json"
-                    const content = "{\n"
-                                    +"\t\"BirthPlace\": \"" + place + "\",\n"
-                                    +"\t\"BirthDay\": " + parseInt(day) + ",\n"
-                                    +"\t\"BirthMonth\": " + parseInt(month) + ",\n"
-                                    +"\t\"BirthYear\": " + parseInt(year) + "\n"
-                                    +"}"
+                    if(!doc) it.reply("Aucun Document trouver dans la whitelist avec ce Discord ID")
+                    else{
+                        const steam_id = doc.steamID
+                        const pathFile = "../CivilWar95/Profiles/ServerProfile/CJ_Pass/DataBase/"+steam_id+".json"
+                        const content = "{\n"
+                                        +"\t\"BirthPlace\": \"" + place + "\",\n"
+                                        +"\t\"BirthDay\": " + parseInt(day) + ",\n"
+                                        +"\t\"BirthMonth\": " + parseInt(month) + ",\n"
+                                        +"\t\"BirthYear\": " + parseInt(year) + "\n"
+                                        +"}"
 
-                    fs.writeFile(pathFile, content, {flag: 'w+'}, err=>{if(err)console.log(err)})
-                    it.reply("Le passeport a été correctement modifié: \n Discord ID: "+ discord_id + "\n Steam ID: "+steam_id)
+                        fs.writeFile(pathFile, content, {flag: 'w+'}, err=>{if(err)console.log(err)})
+                        it.reply("Le passeport a été correctement modifié: \n Discord ID: "+ discord_id + "\n Steam ID: "+steam_id)
+                    }
                 }).catch((err)=>{if(err)console.log(err)})
             }
         })

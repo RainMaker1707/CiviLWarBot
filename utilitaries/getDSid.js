@@ -1,4 +1,3 @@
-const DS = require("discord.js")
 const { authorized } = require('./privilegied')
 const CFG = require('../configs/config.json')
 
@@ -39,6 +38,7 @@ module.exports = {
                 getID(bot, it, DB, {steamID: id})
             }
         })
+        if(!flag) it.reply("Vous n'êtes pas autorisé a effectué cette action")
     },
     get_steam_id: (bot, it , DB) => {
         let flag = false
@@ -49,5 +49,6 @@ module.exports = {
                 getID(bot, it, DB, {discordID: id})
             }
         })
+        if(!flag) it.reply("Vous n'êtes pas autorisé a effectué cette action")
     }
 }

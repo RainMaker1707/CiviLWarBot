@@ -18,6 +18,7 @@ const { whitelisted, nonwhitelisted } = require('./utilitaries/privilegied')
 const { customPass } = require("./utilitaries/passeportDiscord")
 const { customPass2 } = require("./utilitaries/passeportSteam")
 const { get_DS_id, get_steam_id } = require("./utilitaries/getDSid")
+const { save_bg, get_bg } = require("./utilitaries/background")
 
 let bot = new Client({intents: [
                                 GatewayIntentBits.DirectMessages, 
@@ -28,7 +29,7 @@ let bot = new Client({intents: [
                                 GatewayIntentBits.GuildMessageReactions,
                                 GatewayIntentBits.DirectMessageReactions,
                                 GatewayIntentBits.GuildVoiceStates,
-                                GatewayIntentBits.GuildPresences,
+                                GatewayIntentBits.GuildPresences
                             ],
                       partials: [Partials.Message, Partials.Channel, Partials.Reaction]
                     })
@@ -66,7 +67,7 @@ bot.login(CFG.token).then(async ()=> {
         if(CFG.createTicketHelp) createTicketHelp(bot)
     }
 
-    ticketGlobal(bot, "📄🛃┃𝐖𝐡𝐢𝐭𝐞𝐥𝐢𝐬𝐭 𝐍°", "1113446931591602206", "Lisez bien le "+DS.channelMention("1113445219598340118")+", ensuite le "+ DS.channelMention("1113447196147322930") +" et les "+ DS.channelMention("1114495713766809672") +" pour vous imprégner du monde de CivilWar 95.\nN'oubliez pas de nous donner votre SteamID et de vous renommer sur discord avec le prénom et le nom de votre personnage.\n\nMerci de patienter, un staff va prendre contact avec vous d'ici peu.")
+    ticketGlobal(bot, "📄🛃┃𝐖𝐡𝐢𝐭𝐞𝐥𝐢𝐬𝐭 𝐍°", "1113446931591602206", "Lisez bien le "+ DS.channelMention("1113445219598340118") + ", ensuite le " + DS.channelMention("1113447196147322930") + " et les "+ DS.channelMention("1114495713766809672") + " pour vous imprégner du monde de CivilWar 95.\nN'oubliez pas de nous donner votre SteamID et de vous renommer sur discord avec le prénom et le nom de votre personnage.\n\nMerci de patienter, un staff va prendre contact avec vous d'ici peu.")
     ticketGlobal(bot, "📄📕┃𝐓𝐢𝐜𝐤𝐞𝐭-𝐀°", "1113937575950954557", 
             "Comment pouvons nous vous aider?\nNous répondrons dés que possible")
     ticketGlobal(bot, "📄📗┃𝐓𝐢𝐜𝐤𝐞𝐭-𝐁°", "1114274262442844281", 
@@ -96,14 +97,15 @@ bot.on('interactionCreate', async (it)=>{
     switch(command){
         case "wl": whitelistCmd(bot, it, DB); break;
         case "close": closeCmd(bot, it); break;
-        case "bg": console.log(command); break;
+        case "bg": save_bg(it, DB); break;
+        case "get_bg": get_bg(bot, it, DB); break;
         case "freq": radioCmd(bot,it); break;
-        case "call": console.log(command); break;
-        case "ban": console.log(command); break;
         case "pass_ds": customPass(bot, it, DB); break;
         case "pass_steam": customPass2(bot, it, DB); break;
         case "ds_id": get_DS_id(bot, it ,DB); break;
         case "steam_id": get_steam_id(bot, it, DB); break;
+        case "call": console.log(command); break;
+        case "ban": console.log(command); break;
     }
 })
 

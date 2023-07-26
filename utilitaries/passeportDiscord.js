@@ -1,4 +1,3 @@
-const DS = require('discord.js')
 const { authorized } = require('./privilegied')
 const CFG = require('../configs/config.json')
 const fs = require('fs')

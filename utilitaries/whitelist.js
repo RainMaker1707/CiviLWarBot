@@ -39,6 +39,16 @@ module.exports = {
                             fs.writeFile('../CivilWar95/Profiles/ServerProfile/whitelist.txt', steam_id+'\n', {flag: 'a+'}, err=>{if(err)console.log(err)})
 
                             it.reply("La whitelist a bien été enregistrée")
+                            bot.channels.fetch("1131632380390674473").then((chan)=>{
+                                bot.users.fetch(discord_id).then((user)=>{
+                                    const date = new Date()
+                                    let minutes
+                                    if (date.getMinutes() < 10) minutes = `0${date.getMinutes()}`
+                                    else minutes = `${date.getMinutes()}`
+                                    const today = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}  --  ${date.getHours()}:`+minutes
+                                    chan.send("ID Discord: "+ discord_id + "\nID Steam: "+ steam_id + "\nTag Discord: "+ `${user.toString()}` + "\nDate: "+ today +"\nWL par: "+`${it.user.toString()}`)
+                                })
+                            })
                         })
                     }
                 })

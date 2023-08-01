@@ -49,7 +49,7 @@ const rest = new REST({version: '9'}).setToken(CFG.token);
 
 
 bot.on("ready",  ()=>{
-    console.log("Ready..... V1.01")
+    console.log("Ready..... V1.03")
 });
 
 

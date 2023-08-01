@@ -1,11 +1,11 @@
-const { authorized } = require('./privilegied')
+const { authorized_passport } = require('./privilegied')
 const CFG = require('../configs/config.json')
 const fs = require('fs')
 
 module.exports = {
     customPass: (bot, it, DB)=>{
         let flag = false
-        authorized.forEach((r)=>{
+        authorized_passport.forEach((r)=>{
             if(it.member._roles.includes(r)){
                 flag = true
                 let discord_id, place, year, month, day

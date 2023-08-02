@@ -19,6 +19,7 @@ const { customPass } = require("./utilitaries/passeportDiscord")
 const { customPass2 } = require("./utilitaries/passeportSteam")
 const { get_DS_id, get_steam_id } = require("./utilitaries/getDSid")
 const { save_bg, get_bg } = require("./utilitaries/background")
+const { playerbase, removebase} = require("./utilitaries/playerbase")
 
 let bot = new Client({intents: [
                                 GatewayIntentBits.DirectMessages, 
@@ -106,6 +107,8 @@ bot.on('interactionCreate', async (it)=>{
         case "steam_id": get_steam_id(bot, it, DB); break;
         case "call": console.log(command); break;
         case "ban": console.log(command); break;
+        case "playerbase": playerbase(it, DB); break;
+        case "removebase": removebase(it, DB); break;
     }
 })
 

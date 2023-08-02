@@ -23,7 +23,12 @@ module.exports = {
                         return;
                     } 
                     else {
-                        DB.db(CFG.DBName).collection(CFG.WLtable).insertOne({"discordID": discord_id, "steamID": steam_id})
+                        const date = new Date()
+                        let minutes
+                        if (date.getMinutes() < 10) minutes = `0${date.getMinutes()}`
+                        else minutes = `${date.getMinutes()}`
+                        const today = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}  --  ${date.getHours()}:`+minutes
+                        DB.db(CFG.DBName).collection(CFG.WLtable).insertOne({"discordID": discord_id, "steamID": steam_id, "date": today, "staff":`${it.user.toString()}`})
                         .catch((err) => {
                             if(err) it.reply("Une erreur est survenur pendant l'insertion dans la whitelist")
                         })

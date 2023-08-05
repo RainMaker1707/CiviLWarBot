@@ -1,5 +1,6 @@
 const { authorized } = require('./privilegied')
 const CFG = require('../configs/config.json')
+const { getOpt } = require("./getOpt")
 
 
 function getID(bot, it, DB, form){
@@ -18,21 +19,11 @@ function getID(bot, it, DB, form){
     
 }
 
-function getOpt(it, ops) {
-    let id
-    it.options._hoistedOptions.forEach((opt)=>{
-        switch(opt.name){
-            case ops: id = opt.value; break;
-        }
-    })
-    return id
-}
-
 module.exports = {
     get_DS_id: (bot, it, DB) => {
         let flag = false
         authorized.forEach((r)=>{
-            if(it.member._roles.includes(r)){
+            if(it.member._roles.includes(r) && !flag){
                 flag = true
                 const id = getOpt(it, "steam_id")
                 getID(bot, it, DB, {steamID: id})
@@ -43,7 +34,7 @@ module.exports = {
     get_steam_id: (bot, it , DB) => {
         let flag = false
         authorized.forEach((r)=>{
-            if(it.member._roles.includes(r)){
+            if(it.member._roles.includes(r) && !flag){
                 flag = true
                 const id = getOpt(it, "discord_id")
                 getID(bot, it, DB, {discordID: id})

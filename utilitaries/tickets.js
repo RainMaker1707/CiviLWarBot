@@ -135,11 +135,49 @@ function createTicketBackground(bot){
         
 }
 
+async function createTicketHousing(bot){
+    const msg  = "Vous pouvez créer un ticket dans cette section pour demander à vous installer quelque part.\n\n"
+                + "⚠️ *Pour la durée de la beta, il n'est possible d'emménager uniquement que dans Zelenogorsk intra-muros.*\n\n"
+                + "**Tarifs :**\n - Un appartement : **35.000Hry**\n- Une maison : **75.000Hry**\n"
+                + "- Les fonctionnaires du gouvernement et de la police disposent d'un appartement de fonction **gratuit** dans les HLM de Zelenogorsk.\n\n"
+                + "Après avoir ouvert le ticket, dirigez-vous vers la préfecture de Zelenogorsk et demandez le gouvernement. Si vous rencontrez un joueur"
+                + " appartenant à cette faction, déclarez-lui la position de votre nouvelle adresse et donnez lui l'argent.\n\n"
+                + "Si aucun joueur du gouvernement n'est présent, faites-le nous savoir sur le ticket et le staff s'en occupera HRP.\n\n"
+                + "**Après avoir déboursé la somme correspondant à votre achat, il vous sera donné les choses suivantes :**\n"
+                + "- 1 Codelock (potentiellement un deuxième maximum si votre nouveau domicile comporte deux potentielles entrées)\n"
+                + "- 1 Kit de Porte (ou deux, vous devrez rassembler vous-même les composants pour construire l'objet)\n"
+                + "- Kits de barricade de fenêtre (nombre variant, vous devrez rassembler vous-même les composants pour construire l'objet)\n"
+                + "- 1 Frigo - 1 SoloLocker - 1 StorageBox - 1 Wardrobe - 1 Shelf (vous pourrez rajouter uniquement des meubles lootables dans votre domicile)\n\n"
+                + "Notez que le temps de traitement de votre demande peut varier en fonction de la disponibilité des membres du staff. **Par ailleurs, il est inutile d'essayer de les contacter par MP.**"
+
+    const EmbedWL = new EmbedBuilder()
+        .setColor(color)
+        .setTitle("🏠 Acheter un logement 🏠")
+        .setDescription(msg)
+    bot.channels.fetch("1136400543250661518").then((chan)=>{
+        chan.send({ 
+            embeds: [EmbedWL],
+            components: [
+                {
+                    type: 1,
+                    components : [{
+                        type: 2,
+                        style: 4,
+                        label: "Demande de logement",
+                        custom_id: "housing_ticket"
+                    }]
+                }
+            ]
+        })
+    })
+}
+
 function createTicket(bot){
     createTicketWL(bot)
     createTicketDeath(bot)
     createTicketBackground(bot)
     createTicketHelp(bot)
+    createTicketHousing(bot)
 }
 
 module.exports = {
@@ -147,5 +185,6 @@ module.exports = {
     "createTicketWL": createTicketWL,
     "createTicketDeath": createTicketDeath,
     "createTicketBackground": createTicketBackground,
-    "createTicketHelp": createTicketHelp
+    "createTicketHelp": createTicketHelp,
+    "createTicketHousing": createTicketHousing
 }

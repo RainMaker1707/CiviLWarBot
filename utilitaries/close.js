@@ -9,7 +9,7 @@ module.exports = {
         let flag = false
         let canDelete = true
         authorized.forEach((r)=>{
-            if(it.member._roles.includes(r)){
+            if(it.member._roles.includes(r) && !flag){
                 flag = true
                 needContains.forEach((s)=> {
                     if (!channelToDelete.name.includes(s)) {

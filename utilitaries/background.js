@@ -2,23 +2,14 @@ const { authorized } = require('./privilegied')
 const CFG = require('../configs/config.json')
 const DS = require("discord.js")
 const fs = require('fs')
-
-function getOpt(it, ops) {
-    let id
-    it.options._hoistedOptions.forEach((opt)=>{
-        switch(opt.name){
-            case ops: id = opt.value; break;
-        }
-    })
-    return id
-}
+const { getOpt } = require("./getOpt")
 
 module.exports = {
     save_bg: (it, DB) => {
         //TODO: PDF and other files
         let flag = false
         authorized.forEach((r)=>{
-            if(it.member._roles.includes(r)){
+            if(it.member._roles.includes(r) && !flag){
                 flag = true
                 const id = getOpt(it, "id")
                 DB.db(CFG.DBName).collection(CFG.WLtable).findOne({discordID: id})
@@ -52,7 +43,7 @@ module.exports = {
     get_bg: (bot, it , DB) => {
         let flag = false
         authorized.forEach((r)=>{
-            if(it.member._roles.includes(r)){
+            if(it.member._roles.includes(r) && !flag){
                 flag = true
                 const id = getOpt(it, "discord_id")
                 DB.db(CFG.DBName).collection(CFG.BGtable).findOne({discordID: id})

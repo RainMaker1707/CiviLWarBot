@@ -7,7 +7,7 @@ const gouvernment = "1135671416419778590"
 
 module.exports = {
     authorized: [admin, modo, support],
-    authorized_passport: [admin, modo, support, gouvernment],
+    authorized_gouvernment: [admin, modo, support, gouvernment],
     admin: admin,
     modo: modo,
     support: support,

@@ -1,15 +1,6 @@
 const { DBName, BaseTable, WLtable } = require("../configs/config.json")
-const { authorized } = require("./privilegied")
-
-function getOpt(it, ops) {
-    let arg
-    it.options._hoistedOptions.forEach((opt)=>{
-        switch(opt.name){
-            case ops: arg = opt.value; break;
-        }
-    })
-    return arg
-}
+const { authorized_gouvernment } = require("./privilegied")
+const { getOpt } = require("./getOpt")
 
 module.exports = {
     playerbase: (it, DB) => {
@@ -19,8 +10,8 @@ module.exports = {
         const y = parseFloat(getOpt(it, "pos_y"))
 
         let flag = false
-        authorized.forEach((r)=>{
-            if(it.member._roles.includes(r)){
+        authorized_gouvernment.forEach((r)=>{
+            if(it.member._roles.includes(r) && !flag){
                 flag = true
                 // check if position are in map
                 if (x <= 0.0) it.reply("La position X fournie est plus petite ou égale à 0")
@@ -78,18 +69,18 @@ module.exports = {
         })
         if(!flag) it.reply("Vous n'avez pas l'autorisation de faire celà")
     },
-    
+
     removebase: (it, DB) => {
 
         const id = getOpt(it, "id")
 
         let flag = false
-        authorized.forEach((r)=>{
-            if(it.member._roles.includes(r)){
+        authorized_gouvernment.forEach((r)=>{
+            if(it.member._roles.includes(r) && !flag){
                 flag = true
                 DB.db(DBName).collection(BaseTable).deleteOne({"id": id})
                 .then(()=>{
-                    it.reply("La base de <@"+id+"> à été correctement supprimée de la DB")
+                    it.reply("La base de <@"+id+"> a été correctement supprimée de la DB")
                 })
                 .catch((err)=>{
                     it.reply("Une erreur est survenue pendant la suppression de la base")

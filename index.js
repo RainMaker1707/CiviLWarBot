@@ -8,7 +8,7 @@ const { MongoClient } = require('mongodb');
 const fs = require('node:fs');
 
 // Utilitaries commands defined internally
-const { createTicket, createTicketBackground, createTicketDeath, createTicketHelp, createTicketWL} = require('./utilitaries/tickets')
+const { createTicket, createTicketBackground, createTicketDeath, createTicketHelp, createTicketWL, createTicketHousing} = require('./utilitaries/tickets')
 const { ticketGlobal } = require('./utilitaries/ticketGlobal');
 const { ticketDeath } = require('./utilitaries/ticketDeath');
 const { closeCmd } = require("./utilitaries/close");
@@ -20,6 +20,8 @@ const { customPass2 } = require("./utilitaries/passeportSteam")
 const { get_DS_id, get_steam_id } = require("./utilitaries/getDSid")
 const { save_bg, get_bg } = require("./utilitaries/background")
 const { playerbase, removebase} = require("./utilitaries/playerbase")
+const { warn } = require("./utilitaries/warning")
+const { playerinfo } = require("./utilitaries/playerinfo")
 
 let bot = new Client({intents: [
                                 GatewayIntentBits.DirectMessages, 
@@ -66,14 +68,28 @@ bot.login(CFG.token).then(async ()=> {
         if(CFG.createTicketDeath) createTicketDeath(bot)
         if(CFG.createTicketBackground) createTicketBackground(bot)
         if(CFG.createTicketHelp) createTicketHelp(bot)
+        if(CFG.createTicketHousing) createTicketHousing(bot)
     }
 
-    ticketGlobal(bot, "📄🛃┃𝐖𝐡𝐢𝐭𝐞𝐥𝐢𝐬𝐭 𝐍°", "1113446931591602206", "Lisez bien le "+ DS.channelMention("1113445219598340118") + ", ensuite le " + DS.channelMention("1113447196147322930") + " et les "+ DS.channelMention("1114495713766809672") + " pour vous imprégner du monde de CivilWar 95.\nN'oubliez pas de nous donner votre SteamID et de vous renommer sur discord avec le prénom et le nom de votre personnage.\n\nMerci de patienter, un staff va prendre contact avec vous d'ici peu.")
+    ticketGlobal(bot, "📄🛃┃𝐖𝐡𝐢𝐭𝐞𝐥𝐢𝐬𝐭-𝐍°", "1113446931591602206", "Lisez bien le "+ DS.channelMention("1113445219598340118") + ", ensuite le " + DS.channelMention("1113447196147322930") + " et les "+ DS.channelMention("1114495713766809672") + " pour vous imprégner du monde de CivilWar 95.\nN'oubliez pas de nous donner votre SteamID et de vous renommer sur discord avec le prénom et le nom de votre personnage.\n\nMerci de patienter, un staff va prendre contact avec vous d'ici peu.")
     ticketGlobal(bot, "📄📕┃𝐓𝐢𝐜𝐤𝐞𝐭-𝐀°", "1113937575950954557", 
             "Comment pouvons nous vous aider?\nNous répondrons dés que possible")
     ticketGlobal(bot, "📄📗┃𝐓𝐢𝐜𝐤𝐞𝐭-𝐁°", "1114274262442844281", 
             "Raconte nous l'histoire de ton personnage.\nNous traiterons ta demande le plus vite possible!")
     ticketDeath(bot, "1114274956566605874")
+    ticketGlobal(bot, "📄🏡┃𝗔𝗰𝗵𝗲𝘁𝗲𝗿-𝘂𝗻-𝐥𝗼𝗴𝗲𝗺𝗲𝗻𝘁-𝐍°", "1136400543250661518", "⚠️ *Pour la durée de la beta, il n'est possible d'emménager uniquement que dans Zelenogorsk intra-muros.*\n\n"
+            + "**Tarifs :**\n - Un appartement : **35.000Hry**\n- Une maison : **75.000Hry**\n"
+            + "- Les fonctionnaires du gouvernement et de la police disposent d'un appartement de fonction **gratuit** dans les HLM de Zelenogorsk.\n\n"
+            + "Après avoir ouvert le ticket, dirigez-vous vers la préfecture de Zelenogorsk et demandez le gouvernement. Si vous rencontrez un joueur"
+            + " appartenant à cette faction, déclarez-lui la position de votre nouvelle adresse et donnez lui l'argent.\n\n"
+            + "Si aucun joueur du gouvernement n'est présent, faites-le nous savoir sur le ticket et le staff s'en occupera HRP.\n\n"
+            + "**Après avoir déboursé la somme correspondant à votre achat, il vous sera donné les choses suivantes :**\n"
+            + "- 1 Codelock (potentiellement un deuxième maximum si votre nouveau domicile comporte deux potentielles entrées)\n"
+            + "- 1 Kit de Porte (ou deux, vous devrez rassembler vous-même les composants pour construire l'objet)\n"
+            + "- Kits de barricade de fenêtre (nombre variant, vous devrez rassembler vous-même les composants pour construire l'objet)\n"
+            + "- 1 Frigo - 1 SoloLocker - 1 StorageBox - 1 Wardrobe - 1 Shelf (vous pourrez rajouter uniquement des meubles lootables dans votre domicile)\n\n"
+            + "**N'oubliez pas de nous renseigner la position du logement souhaité, celle-ci est facilement trouvable sur Izurvive:** https://dayz.ginfo.gg/\n\n"
+            + "Notez que le temps de traitement de votre demande peut varier en fonction de la disponibilité des membres du staff. **Par ailleurs, il est inutile d'essayer de les contacter par MP.**")
     
 });
 
@@ -105,10 +121,12 @@ bot.on('interactionCreate', async (it)=>{
         case "pass_steam": customPass2(bot, it, DB); break;
         case "ds_id": get_DS_id(bot, it ,DB); break;
         case "steam_id": get_steam_id(bot, it, DB); break;
+        case "playerbase": playerbase(it, DB); break;
+        case "playerinfo": playerinfo(it, DB); break;
+        case "removebase": removebase(it, DB); break;
+        case "warn": warn(bot, it, DB); break;
         case "call": console.log(command); break;
         case "ban": console.log(command); break;
-        case "playerbase": playerbase(it, DB); break;
-        case "removebase": removebase(it, DB); break;
     }
 })
 

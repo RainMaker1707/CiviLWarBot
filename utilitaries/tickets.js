@@ -4,14 +4,14 @@ const color = 0xFC2D00
 
 async function createTicketWL(bot){
     const msg  = "Bienvenue sur **CivilWar95**.\nAvant toute chose veuillez prendre le temps de"
-                +" lire le "+channelMention("1113445219598340118 ")
+                +" lire le "+channelMention("1113445219598340118")
                 +" et le "+ channelMention("1113447196147322930") +" du "
                 +"serveur."
                 +"\n - Votre pseudo sur Discord ET en jeu doit correspondre au prénom et au nom de votre personnage"
                 +"\n- Puis créez un ticket via le bouton **[Demande de Whitelist]**"
                 +"\n- Renseignez dans ce ticket votre SteamID"
                 +"\n\nUne fois le ticket créé, un membre du staff prendra contact avec vous pour passer à l'étape de l'entretien. "
-                +"Si vous êtes disponible immédiatement, patientez dans le canal"+ channelMention("1131629828081201324")+"ou "+ channelMention("1131629464023998664") +". "
+                +"Si vous êtes disponible immédiatement, patientez dans le canal "+ channelMention("1131629828081201324")+" ou "+ channelMention("1131629464023998664") +".\n\n"
                 +"Dès que le ticket sera créé, un membre du staff prendra contact avec vous pour entamer votre whitelist."
     const EmbedWL = new EmbedBuilder()
         .setColor(color)

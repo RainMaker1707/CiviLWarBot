@@ -14,7 +14,7 @@ const { ticketDeath } = require('./utilitaries/ticketDeath');
 const { closeCmd } = require("./utilitaries/close");
 const { whitelistCmd } = require('./utilitaries/whitelist');
 const { radioCmd } = require('./utilitaries/radio');
-const { whitelisted, nonwhitelisted } = require('./utilitaries/privilegied')
+const { whitelisted, nonwhitelisted, admin } = require('./utilitaries/privilegied')
 const { customPass } = require("./utilitaries/passeportDiscord")
 const { customPass2 } = require("./utilitaries/passeportSteam")
 const { get_DS_id, get_steam_id } = require("./utilitaries/getDSid")
@@ -159,3 +159,25 @@ bot.on(Events.MessageReactionAdd, async (reaction, user) => {
         })
     }
 })
+
+// Make a list of users connected to voice channel in CivilWar95
+setInterval(()=>{
+    bot.guilds.fetch("1113445147707981834").then((guild)=>{
+        const path = '../CivilWar95/Profiles/ServerProfile/CV95/Data/discord_online.txt'
+        fs.writeFileSync(path, "", {flag: 'w+'}, err=>{if(err)console.log(err)})
+        guild.members.cache.sort().forEach(member => {
+            DB.db(CFG.DBName).collection(CFG.WLtable).findOne({"discordID": member.id}).then((doc)=>{
+                if(doc){
+                    if(member.voice.channel) {
+                        if(member._roles.includes(admin)) {
+                            fs.appendFileSync(path, doc.steamID+"|ADMIN"+"\n")
+                        } else {
+                            fs.appendFileSync(path, doc.steamID+"|"+member.nickname+"\n")
+                        }
+                    }
+                }
+            })
+            .catch((err)=>console.log(err))
+        })
+    })
+}, 1000)

@@ -52,7 +52,7 @@ const rest = new REST({version: '9'}).setToken(CFG.token);
 
 
 bot.on("ready",  ()=>{
-    console.log("Ready..... V1.03")
+    console.log("Ready..... V1.10")
 });
 
 
@@ -160,15 +160,20 @@ bot.on(Events.MessageReactionAdd, async (reaction, user) => {
     }
 })
 
+
+let count = 0
+
 // Make a list of users connected to voice channel in CivilWar95
-setInterval(()=>{
-    bot.guilds.fetch("1113445147707981834").then((guild)=>{
+setInterval( ()=>{
+    count = 0
+    bot.guilds.fetch("1113445147707981834").then(async(guild)=>{
         const path = '../CivilWar95/Profiles/ServerProfile/CV95/Data/discord_online.txt'
         fs.writeFileSync(path, "", {flag: 'w+'}, err=>{if(err)console.log(err)})
         guild.members.cache.sort().forEach(member => {
             DB.db(CFG.DBName).collection(CFG.WLtable).findOne({"discordID": member.id}).then((doc)=>{
                 if(doc){
                     if(member.voice.channel) {
+                        count++
                         if(member._roles.includes(admin)) {
                             fs.appendFileSync(path, doc.steamID+"|ADMIN"+"\n")
                         } else {
@@ -179,5 +184,16 @@ setInterval(()=>{
             })
             .catch((err)=>console.log(err))
         })
+    })
+}, 2500)
+
+
+setInterval(()=>{
+    bot.user.setPresence({
+        activities:[{
+            type: DS.ActivityType.Listening,
+            name: `${count} joueurs dans les cannaux vocaux` // here is the real status string
+        }],
+        status: "online"
     })
 }, 1000)

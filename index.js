@@ -22,6 +22,7 @@ const { save_bg, get_bg } = require("./utilitaries/background")
 const { playerbase, removebase} = require("./utilitaries/playerbase")
 const { warn } = require("./utilitaries/warning")
 const { playerinfo } = require("./utilitaries/playerinfo")
+const { accept, refuse} = require("./utilitaries/affiche")
 
 let bot = new Client({intents: [
                                 GatewayIntentBits.DirectMessages, 
@@ -53,6 +54,44 @@ const rest = new REST({version: '9'}).setToken(CFG.token);
 
 bot.on("ready",  ()=>{
     console.log("Ready..... V1.10")
+
+    let count = 0
+
+    // Make a list of users connected to voice channel in CivilWar95
+    setInterval( ()=>{
+        count = 0
+        bot.guilds.fetch("1113445147707981834").then(async(guild)=>{
+            const path = '../CivilWar95/Profiles/ServerProfile/CV95/Data/discord_online.txt'
+            fs.writeFileSync(path, "", {flag: 'w+'}, err=>{if(err)console.log(err)})
+            guild.members.cache.sort().forEach(member => {
+                DB.db(CFG.DBName).collection(CFG.WLtable).findOne({"discordID": member.id}).then((doc)=>{
+                    if(doc){
+                        if(member.voice.channel) {
+                            count++
+                            if(member._roles.includes(admin)) {
+                                fs.appendFileSync(path, doc.steamID+"|ADMIN"+"\n")
+                            } else {
+                                fs.appendFileSync(path, doc.steamID+"|"+member.nickname+"\n")
+                            }
+                        }
+                    }
+                })
+                .catch((err)=>console.log(err))
+            })
+        })
+    }, 5000)
+
+
+    setInterval( ()=>{
+        bot.user.setPresence({
+            activities:[{
+                type: DS.ActivityType.Listening,
+                name: `${count} joueurs en vocal` // here is the real status string
+            }],
+            status: "online"
+        })
+    }, 3000)
+
 });
 
 
@@ -125,6 +164,8 @@ bot.on('interactionCreate', async (it)=>{
         case "playerinfo": playerinfo(it, DB); break;
         case "removebase": removebase(it, DB); break;
         case "warn": warn(bot, it, DB); break;
+        case "accept": accept(bot, it); break;
+        case "refuse": refuse(bot, it); break;
         case "call": console.log(command); break;
         case "ban": console.log(command); break;
     }
@@ -132,12 +173,13 @@ bot.on('interactionCreate', async (it)=>{
 
 
 bot.on("voiceStateUpdate", async (oldMember, newMember) => {
+    const faction_freq = [36.425, 37.650, 73.475]
     if (oldMember.channel) {
         const  category_id = "1113447004425687191"
         const floats = (ch) => parseFloat(ch.name.split('┃')[1])
         let filter = (ch) =>{
             return (ch.parentId == category_id)
-            && (floats(ch) >= 80.0 && floats(ch) <= 180.0)
+            && ((floats(ch) >= 80.0 && floats(ch) <= 180.0) || (faction_freq.includes(floats(ch))))
             && (oldMember.channel == ch.id)
             && (oldMember.channel.members.size == 0)
         }
@@ -160,40 +202,18 @@ bot.on(Events.MessageReactionAdd, async (reaction, user) => {
     }
 })
 
-
-let count = 0
-
-// Make a list of users connected to voice channel in CivilWar95
-setInterval( ()=>{
-    count = 0
-    bot.guilds.fetch("1113445147707981834").then(async(guild)=>{
-        const path = '../CivilWar95/Profiles/ServerProfile/CV95/Data/discord_online.txt'
-        fs.writeFileSync(path, "", {flag: 'w+'}, err=>{if(err)console.log(err)})
-        guild.members.cache.sort().forEach(member => {
-            DB.db(CFG.DBName).collection(CFG.WLtable).findOne({"discordID": member.id}).then((doc)=>{
-                if(doc){
-                    if(member.voice.channel) {
-                        count++
-                        if(member._roles.includes(admin)) {
-                            fs.appendFileSync(path, doc.steamID+"|ADMIN"+"\n")
-                        } else {
-                            fs.appendFileSync(path, doc.steamID+"|"+member.nickname+"\n")
-                        }
-                    }
+bot.on(Events.MessageCreate, (message)=>{
+    if(message.channelId === CFG.AfficheChannel) {
+        message.attachments.forEach((atch)=>{
+            let url = atch.attachment
+            bot.channels.fetch(CFG.AfficheValidation).then((chan)=>{
+                if(message.author.id != CFG.BotID){
+                    chan.send("Send by: "+message.author.toString()+"\n\nMessage: "+message.content)
+                    chan.send({files: [url]})
+                    message.delete()
+                    message.author.send("Votre affiche est en cours de validation!")
                 }
             })
-            .catch((err)=>console.log(err))
         })
-    })
-}, 2500)
-
-
-setInterval(()=>{
-    bot.user.setPresence({
-        activities:[{
-            type: DS.ActivityType.Listening,
-            name: `${count} joueurs dans les cannaux vocaux` // here is the real status string
-        }],
-        status: "online"
-    })
-}, 1000)
+    } 
+})

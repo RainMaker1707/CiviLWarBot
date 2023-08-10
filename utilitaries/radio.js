@@ -2,8 +2,10 @@ const DS = require("discord.js")
 const { whitelisted } = require("./privilegied")
 
 const regex = /[+-]?\d+(\.\d+)?/g;
+const faction_freq = ["36.425", "37.650", "73.475"] //armée, chedaki, police
 
 function sanitized(input){
+    if(faction_freq.includes(input)) return true
     const matched = input.match(regex)
     if(matched == null) return false
     const floats = matched.map(v=>parseFloat(v))[0]

@@ -33,18 +33,28 @@ module.exports = {
         else{
             if(!sanitized(it.options._hoistedOptions[0].value)){
                 it.reply("Une fréquence entre 80.0 et 180.0 par tranche de .5 ex: 112.5 est accepté 112.11 ne l'est pas")
+                .then((msg)=>setTimeout(()=> msg.delete(), 5000))
                 return;
             }
+            
+            console.log(it.options._hoistedOptions[0].value.match(regex)[0] + " required by " + it.user.username)
             const channelName = " 🔊┃"+ it.options._hoistedOptions[0].value.match(regex)[0]
-            let channel
 
+            let channel
             const everyoneRole = await it.guild.roles.cache.find(r => r.name === '@everyone')
             const whitelist = await it.guild.roles.cache.find(r => r.id === '1113952117435146370')
             const modo = await it.guild.roles.cache.find(r => r.id === '1113453048925265970')
             const support = await it.guild.roles.cache.find(r => r.id === '1113950111253413929')
 
-            const chan = await bot.channels.cache.find((chan) => chan.name.split('┃')[1] === channelName.split('┃')[1])
-            const chanRP = await bot.channels.cache.find((chan) => chan.id === "1113948885631639563")
+
+            
+            const chan = await bot.channels.cache.find((chan) => {
+                if(chan && chan.name && chan.name.split('┃')[1]) {
+                    return chan.name.split('┃')[1].split(" ")[0].trim() === channelName.split('┃')[1].trim()
+                } else return false
+            })
+
+            const chanRP = await bot.channels.cache.find((chan) => chan.id === "1120644324489711698") // channel commande radio id
             if(chan == null) {
                 // create channel if it doesn't exists
                 channel = await it.member.guild.channels.create({
@@ -77,9 +87,7 @@ module.exports = {
             } else channel = chan
             //move member
             it.member.voice.setChannel(channel)
-            it.reply("test reply").then(msg => {
-                setTimeout(() => msg.delete(), 1)
-                })
+            it.reply("test reply").then(msg => setTimeout(() => msg.delete(), 0))
         }
     }
 }

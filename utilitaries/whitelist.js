@@ -41,7 +41,7 @@ module.exports = {
                                 await member.roles.add(whitelisted);
                             })
                             
-                            fs.writeFile('../CivilWar95/Profiles/ServerProfile/CV95/Data/whitelist.txt', steam_id+'\n', {flag: 'a+'}, err=>{if(err)console.log(err)})
+                            fs.writeFile('../CivilWar95/Profiles/ServerProfile/CW95/Data/whitelist.txt', steam_id+'\n', {flag: 'a+'}, err=>{if(err)console.log(err)})
 
                             it.reply("La whitelist a bien été enregistrée")
                             bot.channels.fetch("1131632380390674473").then((chan)=>{

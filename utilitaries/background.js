@@ -33,7 +33,7 @@ module.exports = {
                         }
                         DB.db(CFG.DBName).collection(CFG.BGtable).insertOne(toInsert)
                         .catch((err)=>it.reply("Une erreur est survenue pendant l'insertion du BG"))
-                        .then(()=>it.reply("Le background a été correctement sauvegarder"))
+                        .then(()=>it.reply("Le background a été correctement sauvegardé"))
                     }
                 })
             }

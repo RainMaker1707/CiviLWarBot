@@ -10,8 +10,10 @@ module.exports = {
                 flag = true
                 const id = getOpt(it, "author_id")
                 const link = getOpt(it, "link")
+                const text = getOpt(it, "text")
 
                 bot.channels.fetch(AfficheChannel).then((chan)=>{
+                    if(text) chan.send("*" + text + "*")
                     chan.send({files: [link]})
                     bot.users.fetch(id).then((user)=>{
                         user.send("Cette affiche a été acceptée")

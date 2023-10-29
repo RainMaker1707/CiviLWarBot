@@ -1,4 +1,4 @@
-const {EmbedBuilder, channelMention} = require("discord.js")
+const {EmbedBuilder, channelMention, messageLink} = require("discord.js")
 
 const color = 0xFC2D00
 
@@ -137,18 +137,17 @@ function createTicketBackground(bot){
 
 async function createTicketHousing(bot){
     const msg  = "Vous pouvez créer un ticket dans cette section pour demander à vous installer quelque part.\n\n"
-                + "⚠️ *Pour la durée de la beta, il n'est possible d'emménager uniquement que dans Zelenogorsk intra-muros.*\n\n"
-                + "**Tarifs :**\n - Un appartement : **35.000Hry**\n- Une maison : **75.000Hry**\n"
-                + "- Les fonctionnaires du gouvernement et de la police disposent d'un appartement de fonction **gratuit** dans les HLM de Zelenogorsk.\n\n"
-                + "Après avoir ouvert le ticket, dirigez-vous vers la préfecture de Zelenogorsk et demandez le gouvernement. Si vous rencontrez un joueur"
-                + " appartenant à cette faction, déclarez-lui la position de votre nouvelle adresse et donnez lui l'argent.\n\n"
-                + "Si aucun joueur du gouvernement n'est présent, faites-le nous savoir sur le ticket et le staff s'en occupera HRP.\n\n"
-                + "**Après avoir déboursé la somme correspondant à votre achat, il vous sera donné les choses suivantes :**\n"
-                + "- 1 Codelock (potentiellement un deuxième maximum si votre nouveau domicile comporte deux potentielles entrées)\n"
-                + "- 1 Kit de Porte (ou deux, vous devrez rassembler vous-même les composants pour construire l'objet)\n"
-                + "- Kits de barricade de fenêtre (nombre variant, vous devrez rassembler vous-même les composants pour construire l'objet)\n"
-                + "- 1 Frigo - 1 SoloLocker - 1 StorageBox - 1 Wardrobe - 1 Shelf (vous pourrez rajouter uniquement des meubles lootables dans votre domicile)\n\n"
-                + "Notez que le temps de traitement de votre demande peut varier en fonction de la disponibilité des membres du staff. **Par ailleurs, il est inutile d'essayer de les contacter par MP.**"
+                + "⚠️ *Pour les premières semaines suivant le lancement du serveur, il n'est possible d'emménager uniquement **que dans Zelenogorsk** intra-muros.*\n\n"
+                + "Les 💵 **tarifs** des logements sont consultables dans le canal ci-dessous: \n    " + channelMention("1150545043602542602") + "\n"
+                + " - Il vous est possible d'acheter une place de 🚗 **garage** pour 10.000 **Hryvnia**\n"
+                + "- Merci d'écrire les coordonnées du bien souhaité dans votre ticket (visibles sur le site https://www.izurvive.com/)\n"
+                + "- Le **staff** qui s'occupe de votre ticket vous donnera ensuite un **codelock** (deux maximum si deux entrées)"
+                + " et des **kits de construction** (porte & barricades de fenêtres). Les composants de fabrication sont à votre charge.\n"
+                + "- Un joueur ne peut posséder **qu'un seul logement et un seul garage**.\n"
+                + "- Pour rappel, **il est interdit de posséder deux meubles identiques et déployés** (peu importe la couleur) dans son logement."
+                + " La seule exception concerne les caisses en bois craftables. Outrepasser cette règle mènera à la suppression des meubles concernés.\n"
+                + "- Notez que le temps de traitement de votre demande peut varier en fonction de la disponibilité des membres du staff. Par ailleurs,"
+                + " il est inutile d'essayer de les contacter par MP pour tenter accélérer la procédure."
 
     const EmbedWL = new EmbedBuilder()
         .setColor(color)

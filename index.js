@@ -26,7 +26,7 @@ const { playerinfo } = require("./utilitaries/playerinfo")
 const { accept, refuse} = require("./utilitaries/affiche")
 const { addgarage, removegarage } = require("./utilitaries/garage")
 const { release } = require("./utilitaries/release");
-const { endianness } = require('node:os');
+const { log } = require("./utilitaries/log")
 
 let bot = new Client({intents: [
                                 GatewayIntentBits.DirectMessages, 
@@ -59,7 +59,7 @@ const rest = new REST({version: '9'}).setToken(CFG.token);
 
 
 bot.on("ready",  ()=>{
-    console.log("Ready..... V1.10")
+    log(bot, "Ready..... V1.21")
 
     let count = 0
 
@@ -67,7 +67,7 @@ bot.on("ready",  ()=>{
     setInterval( ()=>{
         bot.guilds.fetch("1113445147707981834").then(async(guild)=>{
             const path = '../CivilWar95/Profiles/ServerProfile/CW95/Data/discord_online.txt'
-            fs.writeFileSync(path, "", {flag: 'w+'}, err=>{if(err)console.log(err)})
+            fs.writeFileSync(path, "", {flag: 'w+'}, err=>{if(err)log(bot, err)})
             guild.members.cache.sort().forEach(member => {
                 DB.db(CFG.DBName).collection(CFG.WLtable).findOne({"discordID": member.id}).then((doc)=>{
                     if(doc){
@@ -80,7 +80,7 @@ bot.on("ready",  ()=>{
                         }
                     }
                 })
-                .catch((err)=>console.log(err))
+                .catch((err)=>log(bot, err))
             })
         })
     }, 5000)
@@ -91,7 +91,7 @@ bot.on("ready",  ()=>{
         const path = '../CivilWar95/Profiles/ServerProfile/CW95/Data/online.txt'
 
         fs.readFile(path, 'utf-8', (err, data)=>{
-            if (err) console.log(err)
+            if (err) log(bot, err)
             else {
                 let count = 0
                 for(let i = 0; i < data.length; i++){
@@ -122,7 +122,7 @@ bot.on("ready",  ()=>{
 bot.login(CFG.token).then(async ()=> {
 
     await DB.connect();
-    console.log("Connected ....");
+    log(bot, "Bot is now live");
 
     if(CFG.createTicketWL && CFG.createTicketDeath && CFG.createTicketHelp && CFG.createTicketBackground){
         createTicket(bot);
@@ -185,7 +185,7 @@ function logError(err, cmd, it){
 bot.on('interactionCreate', async (it)=>{
     if(!it.isCommand()) return;
     const command = it.commandName
-    console.log(it.commandName + " ==> " + it.user.username) 
+    log(bot, it.commandName + " ==> " + it.user.username) 
     switch(command){
         case "wl": try { whitelistCmd(bot, it, DB); } catch(err) {logError(err, "WL", it)} break;
         case "close": try { closeCmd(bot, it);  } catch(err) {logError(err, "CLOSE", it)} break;
@@ -237,7 +237,7 @@ bot.on(Events.MessageReactionAdd, async (reaction, user) => {
     if (reaction.message.id === CFG.LastRuleMsg && (reaction.emoji.name == "✅" || reaction.emoji.name == "☑️")) { //check if it is rules and it check it
         const toWhite = bot.guilds.cache.get(reaction.message.guildId).members.fetch(user.id)
         toWhite.then(async (member)=> {
-            console.log(member.user.username + " has accepted rules")
+            log(bot, member.user.username + " has accepted rules")
             if(!member._roles.includes(whitelisted)){
                 await member.roles.add(nonwhitelisted);
             }
@@ -287,7 +287,7 @@ bot.on(Events.MessageCreate, (message)=>{
                                         if(!doc2) {
                                             flag = true
                                             DB.db(CFG.DBName).collection(CFG.WLtable).updateOne(doc, {$set:{"color":userColor}}).then(()=>{
-                                                console.log('updated color for ' + message.author.username + ' with ' + userColor)
+                                                log(bot, 'updated color for ' + message.author.username + ' with ' + userColor)
                                             })
                                         }
                                     })

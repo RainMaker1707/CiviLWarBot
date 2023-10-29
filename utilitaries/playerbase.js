@@ -1,6 +1,7 @@
 const { DBName, BaseTable, WLtable } = require("../configs/config.json")
 const { authorized_gouvernment } = require("./privilegied")
 const { getOpt } = require("./getOpt")
+const { log } = require("./log")
 
 module.exports = {
     playerbase: (it, DB) => {
@@ -43,26 +44,26 @@ module.exports = {
                                                 it.reply("La base a été correctement ajouté")
                                             })
                                             .catch((err)=>{
-                                                console.log(err)
+                                                log(bot,  err)
                                                 it.reply("une erreur est survenue pendant l'insertion de la base")
                                             })
                                         }
                                     })
                                     .catch((err)=>{
                                         it.reply("Une erreur est survenue pendant la lecture des bases (2)")
-                                        console.log(err)
+                                        log(bot,  err)
                                     })
                                 }
                             })
                             .catch((err)=>{
                                 it.reply("Une erreur est survenue pendant la lecture des bases (1)")
-                                console.log(err)
+                                log(bot,  err)
                             })
                         }
                     }))
                     .catch((err)=>{
                         it.reply("Une erreur est survenue pendant la lecture de la WhiteList")
-                        console.log(err)
+                        log(bot,  err)
                     })
                 }
             }
@@ -84,7 +85,7 @@ module.exports = {
                 })
                 .catch((err)=>{
                     it.reply("Une erreur est survenue pendant la suppression de la base")
-                    console.log(err)
+                    log(bot, err)
                 })
             }
         })

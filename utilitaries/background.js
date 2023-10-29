@@ -3,6 +3,7 @@ const CFG = require('../configs/config.json')
 const DS = require("discord.js")
 const fs = require('fs')
 const { getOpt } = require("./getOpt")
+const { log } = require("./log")
 
 module.exports = {
     save_bg: (it, DB) => {
@@ -59,7 +60,7 @@ module.exports = {
                             })
                         } else {
                             bot.users.fetch(doc.discordID).then((u)=>{
-                                fs.writeFileSync("background.txt", bg, {flag: 'w+'}, err=>{if(err)console.log(err)})
+                                fs.writeFileSync("background.txt", bg, {flag: 'w+'}, err=>{if(err)log(bot, err)})
                                 it.reply("Ok").then(msg => {
                                     setTimeout(() => msg.delete(), 0)
                                 });

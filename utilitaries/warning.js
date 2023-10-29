@@ -1,6 +1,7 @@
 const { DBName, WarnTable } = require("../configs/config.json")
 const { authorized } = require("./privilegied")
 const { getOpt } = require("./getOpt")
+const { log } = require("./log")
 //const { playerinfo } = require("./playerinfo")
 
 
@@ -35,7 +36,7 @@ module.exports = {
                     })
                 })
                 .catch((err)=>{
-                    console.log(err)
+                    log(bot, err)
                     it.reply("Une erreur est survenue pendant l'insertion du warning")
                 })
             }

@@ -1,5 +1,6 @@
 const DS = require("discord.js")
 const { whitelisted } = require("./privilegied")
+const { log } = require("./log")
 
 const regex = /[+-]?\d+(\.\d+)?/g;
 const faction_freq = ["36.425", "37.650", "73.475"] //armée, chedaki, police
@@ -13,7 +14,7 @@ function sanitized(input){
     if(!(decimal == 0) && !(decimal == 5)) {
         return false
     }
-    if(!(floats >= 80.0) && !(floats <= 180.0)) {
+    if(!(floats >= 80.0) || !(floats <= 180.0)) { // don't why it works
         console.log("FLOAT")
         return false
     }
@@ -29,7 +30,7 @@ module.exports = {
             return;
         }
         // test if user is whitelisted
-        if(!it.member._roles.includes(whitelisted)) it.reply("Tu dois d'abord être whitelist pour aller sur une frequence radio")
+        if(!it.member._roles.includes(whitelisted)) it.reply("Tu dois d'abord être whitelist pour aller sur une frequence radio").then((msg)=>setTimeout(()=>msg.delete(), 5000))
         else{
             if(!sanitized(it.options._hoistedOptions[0].value)){
                 it.reply("Une fréquence entre 80.0 et 180.0 par tranche de .5 ex: 112.5 est accepté 112.11 ne l'est pas")
@@ -37,7 +38,7 @@ module.exports = {
                 return;
             }
             
-            console.log(it.options._hoistedOptions[0].value.match(regex)[0] + " required by " + it.user.username)
+            log(bot, it.options._hoistedOptions[0].value.match(regex)[0] + " required by " + it.user.username)
             const channelName = " 🔊┃"+ it.options._hoistedOptions[0].value.match(regex)[0]
 
             let channel

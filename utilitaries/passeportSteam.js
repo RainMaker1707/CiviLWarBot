@@ -1,6 +1,7 @@
 const { authorized_gouvernment } = require('./privilegied')
 const CFG = require('../configs/config.json')
 const fs = require('fs')
+const { log } = require("./log")
 
 module.exports = {
     customPass2: (bot, it, DB)=>{
@@ -34,10 +35,10 @@ module.exports = {
                                         +"\t\"BirthYear\": " + parseInt(year) + "\n"
                                         +"}"
 
-                        fs.writeFile(pathFile, content, {flag: 'w+'}, err=>{if(err)console.log(err)})
+                        fs.writeFile(pathFile, content, {flag: 'w+'}, err=>{if(err)log(bot, err)})
                         it.reply("Le passeport a été correctement modifié: \n Discord ID: "+ discord_id + "\n Steam ID: "+steam_id)
                     }
-                }).catch((err)=>{if(err)console.log(err)})
+                }).catch((err)=>{if(err)log(bot, err)})
             }
         })
         if(!flag) it.reply("Vous n'êtes pas autorisé a faire cette action")

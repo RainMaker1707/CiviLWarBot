@@ -1,6 +1,7 @@
 const DS = require('discord.js')
 const { authorized, whitelisted, nonwhitelisted } = require('./privilegied')
 const CFG = require('../configs/config.json')
+const { log } = require("./log")
 const fs = require('fs')
 
 module.exports = {
@@ -33,7 +34,7 @@ module.exports = {
                             if(err) it.reply("Une erreur est survenur pendant l'insertion dans la whitelist")
                         })
                         .then(async ()=>{
-                            console.log("Whitelisted SteamID: " + steam_id, " DiscordID: " + discord_id + " by: " + it.user.username)
+                            log(bot, "Whitelisted SteamID: " + steam_id, " DiscordID: " + discord_id + " by: " + it.user.username)
                             
                             const toWhite = it.guild.members.fetch(discord_id)
                             toWhite.then(async (member)=> {
@@ -41,7 +42,7 @@ module.exports = {
                                 await member.roles.add(whitelisted);
                             })
                             
-                            fs.writeFile('../CivilWar95/Profiles/ServerProfile/CW95/Data/whitelist.txt', steam_id+'\n', {flag: 'a+'}, err=>{if(err)console.log(err)})
+                            fs.writeFile('../CivilWar95/Profiles/ServerProfile/CW95/Data/whitelist.txt', steam_id+'\n', {flag: 'a+'}, err=>{if(err)log(bot, err)})
 
                             it.reply("La whitelist a bien été enregistrée")
                             bot.channels.fetch("1131632380390674473").then((chan)=>{

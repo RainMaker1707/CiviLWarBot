@@ -1,5 +1,6 @@
 const DS = require('discord.js');
 let { counter } = require('../configs/config.json')
+const { log } = require("./log")
 
 module.exports = {
     answer: async (it, name, message, bot, id) => {
@@ -44,7 +45,7 @@ module.exports = {
         })
         channel.send("Bonjour "+`${it.user.toString()},\n\n` + message + "\n<@&1113453048925265970> "+ "<@&1113950111253413929>")
 
-        console.log("Channel '"+ channelName +"' created")
+        log(bot, "Channel '"+ channelName +"' created")
         it.reply("Channel " + channel.toString() +" created").then(msg => {
             setTimeout(() => msg.delete(), 10000)
             });
@@ -86,7 +87,7 @@ module.exports = {
         })
         channel.send("Bonjour "+`${it.user.toString()},\n\n` + message + "\n <@&1113951433365127318> <@&1113453048925265970> ")
 
-        console.log("Channel '"+ channelName +"' created")
+        log(bot, "Channel '"+ channelName +"' created")
         it.reply("Channel " + channel.toString() +" created").then(msg => {
             setTimeout(() => msg.delete(), 10000)
             });

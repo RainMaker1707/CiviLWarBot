@@ -1,6 +1,7 @@
 const { DBName, GarageTable, WLtable } = require("../configs/config.json")
 const { authorized_gouvernment } = require("./privilegied")
 const { getOpt } = require("./getOpt")
+const { log } = require("./log")
 
 module.exports = {
     addgarage: (it, DB) => {
@@ -43,26 +44,26 @@ module.exports = {
                                                 it.reply("Le garage a été correctement ajouté")
                                             })
                                             .catch((err)=>{
-                                                console.log(err)
+                                                log(bot, err)
                                                 it.reply("une erreur est survenue pendant l'insertion du garage")
                                             })
                                         }
                                     })
                                     .catch((err)=>{
                                         it.reply("Une erreur est survenue pendant la lecture des garages (2)")
-                                        console.log(err)
+                                        log(bot, err)
                                     })
                                 }
                             })
                             .catch((err)=>{
                                 it.reply("Une erreur est survenue pendant la lecture des garages (1)")
-                                console.log(err)
+                                log(bot, err)
                             })
                         }
                     }))
                     .catch((err)=>{
                         it.reply("Une erreur est survenue pendant la lecture de la WhiteList")
-                        console.log(err)
+                        log(bot, err)
                     })
                 }
             }
@@ -84,7 +85,7 @@ module.exports = {
                 })
                 .catch((err)=>{
                     it.reply("Une erreur est survenue pendant la suppression du garage")
-                    console.log(err)
+                    log(bot, err)
                 })
             }
         })

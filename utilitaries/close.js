@@ -1,5 +1,6 @@
 const DS = require('discord.js')
 const { authorized } = require('./privilegied')
+const { log } = require("./log")
 
 module.exports = {
     closeCmd: async (bot, it) => {
@@ -23,7 +24,7 @@ module.exports = {
         })
         if(!flag) it.reply("Vous n'avez pas les droit suffisant pour faire cela")
         else if(flag && canDelete){
-            console.log("Deleted channel:  " + channelToDelete.name + " by user: " + it.user.username)
+            log(bot, "Deleted channel:  " + channelToDelete.name + " by user: " + it.user.username)
             channelToDelete.delete()
         }
         else it.reply("Vous n'avez pas les droit suffisant pour faire cela")

@@ -1,6 +1,7 @@
 const { DBName, WLtable, WarnTable,  BaseTable, BGTable, GarageTable} = require("../configs/config")
 const { getOpt } = require("./getOpt")
 const { authorized } = require("./privilegied")
+const { log } = require("./log")
 
 
 module.exports = {
@@ -123,25 +124,29 @@ module.exports = {
                                     }
                                 })
                                 .catch((err)=>{
-                                    console.log(err)
+                                    log(bot, "Une erreur est survenue à la lecture des warnings.")
+                                    log(bot,  err)
                                     it.reply("Une erreur est survenue à la lecture des warnings.")
                                 })
                             
                             
                             })
                             .catch((err)=>{
-                                console.log(err)
+                                log(bot, "Une erreur est survenue pendant la lecture des garages.")
+                                log(bot,  err)
                                 it.reply("Une erreur est survenue pendant la lecture des garages.")
                             })
                         })
                         .catch((err)=>{
-                            console.log(err)
+                            log(bot, "Une erreur est survenue pendant la lecture des bases.")
+                            log(bot,  err)
                             it.reply("Une erreur est survenue pendant la lecture des bases.")
                         })
                     }
                 })
                 .catch((err)=>{
-                    console.log(err)
+                    log(bot, "Une erreur est survenur pendant la lecture de la WL.")
+                    log(bot,  err)
                     it.reply("Une erreur est survenur pendant la lecture de la WL.")
                 })
             }

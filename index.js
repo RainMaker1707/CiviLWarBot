@@ -15,7 +15,7 @@ const { ticketDeath } = require('./utilitaries/ticketDeath');
 const { closeCmd } = require("./utilitaries/close");
 const { whitelistCmd } = require('./utilitaries/whitelist');
 const { radioCmd } = require('./utilitaries/radio');
-const { whitelisted, nonwhitelisted, admin } = require('./utilitaries/privilegied')
+const { whitelisted, nonwhitelisted, admin, modo } = require('./utilitaries/privilegied')
 const { customPass } = require("./utilitaries/passeportDiscord")
 const { customPass2 } = require("./utilitaries/passeportSteam")
 const { get_DS_id, get_steam_id } = require("./utilitaries/getDSid")
@@ -27,6 +27,7 @@ const { accept, refuse} = require("./utilitaries/affiche")
 const { addgarage, removegarage } = require("./utilitaries/garage")
 const { release } = require("./utilitaries/release");
 const { log } = require("./utilitaries/log")
+const { ladderboard, currentLadderboard } = require("./utilitaries/votes")
 
 let bot = new Client({intents: [
                                 GatewayIntentBits.DirectMessages, 
@@ -72,10 +73,19 @@ bot.on("ready",  ()=>{
                 DB.db(CFG.DBName).collection(CFG.WLtable).findOne({"discordID": member.id}).then((doc)=>{
                     if(doc){
                         if(member.voice.channel) {
-                            if(member._roles.includes(admin)) {
-                                fs.appendFileSync(path, doc.steamID+"|ADMIN"+"\n")
+                            if(member._roles.includes(admin) || member._roles.includes(modo)) {
+                                try{
+                                    fs.appendFileSync(path, doc.steamID+"|ADMIN"+"\n")
+                                }catch(Error) {
+                                    log(bot, "File was busy, skip for 5s")
+                                }
                             } else {
-                                fs.appendFileSync(path, doc.steamID+"|"+member.nickname+"\n")
+                                if(member.nickname != null) 
+                                    try{
+                                        fs.appendFileSync(path, doc.steamID+"|"+member.nickname+"\n")
+                                    }catch(Error) {
+                                        log(bot, "File was busy, skip for 5s")
+                                    }
                             }
                         }
                     }
@@ -157,10 +167,6 @@ bot.login(CFG.token).then(async ()=> {
     
 });
 
-/*bot.on('uncaughtException', err=>{
-    
-})*/
-
 
 (async () => {
     try {
@@ -205,9 +211,11 @@ bot.on('interactionCreate', async (it)=>{
         case "add_garage": try { addgarage(it ,DB);  } catch(err) {logError(err, "ADD_GARAGE", it)} break;
         case "remove_garage": try { removegarage(it, DB);  } catch(err) {logError(err, "REMOVE_GARAGE", it)} break;
         case "release": try { release(bot, it);  } catch(err) {logError(err, "RELEASE", it)} break;
+        case "votes": try{ ladderboard(bot, it) }catch(err){ logError(err, "Votes", it) } break;
+        case "vote": try{ currentLadderboard(bot, it) }catch(err){ logError(err, "Votes", it) } break;
         case "call": try { console.log(command);  } catch(err) {logError(err, "CALL", it)} break;
         case "ban": try { console.log(command);  } catch(err) {logError(err, "BAN", it)} break;
-        case "error": try { throw new Error("ERROR TEST"); } catch (err) {logError(err, "TEST_ERROR_LOG", it)} break;
+        case "error": try { it.reply("error")} catch (err) {logError(err, "TEST_ERROR_LOG", it)} break;
         case "ping": try { it.reply("Pong!") } catch(err) {logError(err, "ALIVE", it)} break;
     }
 })

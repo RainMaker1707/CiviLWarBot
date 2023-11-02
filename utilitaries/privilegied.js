@@ -5,6 +5,8 @@ const whitelisted = "1113952117435146370"
 const nonwhitelisted = "1113453224133939210"
 const gouvernment = "1135671416419778590"
 
+authorized_inner = [admin, modo, support],
+
 module.exports = {
     authorized: [admin, modo, support],
     authorized_gouvernment: [admin, modo, support, gouvernment],
@@ -12,5 +14,15 @@ module.exports = {
     modo: modo,
     support: support,
     whitelisted: whitelisted,
-    nonwhitelisted: nonwhitelisted
+    nonwhitelisted: nonwhitelisted,
+    autho: (it) =>{
+        flag = false
+        authorized_inner.forEach((r)=>{
+            if(it.member._roles.includes(r) && !flag){
+                flag =  true
+                return
+            }
+        })
+        return flag
+    }
 }

@@ -15,7 +15,7 @@ const { ticketDeath } = require('./utilitaries/ticketDeath');
 const { closeCmd } = require("./utilitaries/close");
 const { whitelistCmd } = require('./utilitaries/whitelist');
 const { radioCmd } = require('./utilitaries/radio');
-const { whitelisted, nonwhitelisted, admin, modo } = require('./utilitaries/privilegied')
+const { whitelisted, nonwhitelisted, admin, modo, authorized, authoMember } = require('./utilitaries/privilegied')
 const { customPass } = require("./utilitaries/passeportDiscord")
 const { customPass2 } = require("./utilitaries/passeportSteam")
 const { get_DS_id, get_steam_id } = require("./utilitaries/getDSid")
@@ -28,6 +28,7 @@ const { addgarage, removegarage } = require("./utilitaries/garage")
 const { release } = require("./utilitaries/release");
 const { log } = require("./utilitaries/log")
 const { ladderboard, currentLadderboard } = require("./utilitaries/votes")
+const { status } = require("./utilitaries/serveur")
 
 let bot = new Client({intents: [
                                 GatewayIntentBits.DirectMessages, 
@@ -120,10 +121,7 @@ bot.on("ready",  ()=>{
 
     //send a message for topserveur votes in discussion channel hrp interval 2h
     setInterval(()=>{
-        bot.channels.fetch("1113940473707507743")
-        .then((chan)=>{
-            chan.send("📩 N'oubliez pas de votez pour le serveur ➡️ https://top-serveurs.net/dayz/cw95 \n Merci à vous! 💜")
-        })
+        sendVoteMessage("1149101162675581058")
     }, 7200000) //2h
 
 });
@@ -217,6 +215,7 @@ bot.on('interactionCreate', async (it)=>{
         case "ban": try { console.log(command);  } catch(err) {logError(err, "BAN", it)} break;
         case "error": try { it.reply("error")} catch (err) {logError(err, "TEST_ERROR_LOG", it)} break;
         case "ping": try { it.reply("Pong!") } catch(err) {logError(err, "ALIVE", it)} break;
+        case "serveur": try{ status(bot, it) } catch(err){logError(err, "SERVEUR", it)} break;
     }
 })
 
@@ -253,6 +252,7 @@ bot.on(Events.MessageReactionAdd, async (reaction, user) => {
     }
 })
 
+
 bot.on(Events.MessageCreate, (message)=>{
     if(message.channelId === CFG.AfficheChannel) {
         message.attachments.forEach((atch)=>{
@@ -263,6 +263,17 @@ bot.on(Events.MessageCreate, (message)=>{
                     chan.send({files: [url]})
                     message.delete()
                     message.author.send("Votre affiche est en cours de validation!")
+                }
+            })
+        })
+    }else if (message.channelId == CFG.screenshotChan){
+        let author = message.author
+        bot.guilds.fetch(CFG.guildId).then((guild)=>{
+            guild.members.fetch(message.author.id).then((member)=>{
+                if( !authoMember(member) && message.attachments.size == 0){
+                    message.delete()
+                    author.send("Vous ne pouvez pas envoyer de message texte dans ce chanel!")
+                    log(bot, "<@"+ author + ">" + " Sent in screenshot: " + message.content)
                 }
             })
         })
@@ -319,8 +330,23 @@ bot.on(Events.MessageCreate, (message)=>{
                 }
             })) 
         }
+    }else if (message.channelId == "1113940473707507743") {
+        currentDate = new Date()
+        CFG.messageCount++;
+        if(CFG.messageCount >= 15 && currentDate.getTime() - CFG.lastSend >= 3600000){
+            CFG.messageCount = 0;
+            CFG.lastSend = currentDate.getTime()
+            sendVoteMessage("1113940473707507743")
+        }
     }
 })
+
+function sendVoteMessage(chanID){
+    bot.channels.fetch(chanID)
+        .then((chan)=>{
+            chan.send("📩 N'oubliez pas de votez pour le serveur ➡️ https://top-serveurs.net/dayz/cw95 \n Merci à vous! 💜")
+        })
+}
 
 
 function randomHexa(){

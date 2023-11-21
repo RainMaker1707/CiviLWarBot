@@ -13,7 +13,7 @@ module.exports = {
             if(it.member._roles.includes(r) && !flag){
                 flag = true
                 needContains.forEach((s)=> {
-                    if (!channelToDelete.name.includes(s)) {
+                    if (!channelToDelete.name.includes(s) && canDelete) {
                         canDelete = false;
                         it.reply("Vous ne pouvez pas détruire ce channel, allez a cherno pour détruire des choses")
                         return;
@@ -21,8 +21,11 @@ module.exports = {
                 })
             }
         })
-        if(!flag) it.reply("Vous n'avez pas les droit suffisant pour faire cela")
-        else if(flag && canDelete){
+        if(!flag) {
+            it.reply("Vous n'avez pas les droit suffisant pour faire cela")
+            console.log("ok")
+        }else if(flag && canDelete){
+            console.log("ok")
             log(bot, "Deleted channel:  " + channelToDelete.name + " by user: " + it.user.username)
             try{
                 channelToDelete.delete()

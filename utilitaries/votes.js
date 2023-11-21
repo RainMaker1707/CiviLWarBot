@@ -3,6 +3,7 @@ const { authorized, autho } = require("./privilegied")
 const { getOpt } = require("./getOpt")
 
 
+
 module.exports = {
     ladderboard: (bot, it) =>{
         if(!autho(it)) it.reply("Vous n'etes pas autorisé à faire cette commande")
@@ -10,7 +11,7 @@ module.exports = {
             end = getOpt(it, "max")
             firstOne = ""
             count = 0
-            txt = "# Ladderboard du mois précédent:\n"
+            txt = "# Leaderboard du mois précédent:\n"
             fetch("https://api.top-serveurs.net/v1/servers/RQR838GT8BFC/players-ranking?type=lastMonth")
                 .then((res)=>{
                     res.json().then(data=>{
@@ -42,7 +43,7 @@ module.exports = {
             end = getOpt(it, "max")
             firstOne = ""
             count = 0
-            txt = "# Ladderboard de ce mois:\n"
+            txt = "# Leaderboard de ce mois:\n"
             fetch("https://api.top-serveurs.net/v1/servers/RQR838GT8BFC/players-ranking")
                 .then((res)=>{
                     res.json().then(data=>{

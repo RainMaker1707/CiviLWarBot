@@ -2,11 +2,11 @@ const Discord = require('discord.js');
 
 
 module.exports = {
-  name: 'votes',
+  name: 'serveur',
   value: "N/A",
-  description: "Get the leaderboard",
+  description: "Status serveur",
   options: [
-    { name: 'max', description: "nombre max dans le leaderboard", type: 4, required: true }
+    { name: 'status', description: "On / Off / Restart / Maj", type: 3, required: true }
   ],
   execute(interaction, client, callback) {
       console.log("CheckID slashed")

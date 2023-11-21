@@ -1,3 +1,5 @@
+const CFG = require("../configs/config.json")
+
 const admin = "1113951433365127318"
 const modo = "1113453048925265970"
 const support = "1113950111253413929"
@@ -19,6 +21,16 @@ module.exports = {
         flag = false
         authorized_inner.forEach((r)=>{
             if(it.member._roles.includes(r) && !flag){
+                flag =  true
+                return
+            }
+        })
+        return flag
+    },
+    authoMember: (member) =>{
+        flag = false
+        authorized_inner.forEach((r)=>{
+            if(member._roles.includes(r) && !flag){
                 flag =  true
                 return
             }
